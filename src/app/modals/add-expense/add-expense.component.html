@@ -1,0 +1,123 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis Gastos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="close" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="modal-handle"></div>
+
+  <h2 class="modal-title">Nuevo Gasto</h2>
+  <p class="modal-subtitle">Contenido de la aplicación...</p>
+
+  <form>
+    <!-- Descripción del gasto -->
+    <div class="form-group">
+      <ion-label class="form-label">Descripción del gasto</ion-label>
+      <ion-item lines="none" class="ios-input">
+        <ion-input
+          [(ngModel)]="expense.description"
+          name="description"
+          type="text"
+          placeholder="Ej: Café con amigos">
+        </ion-input>
+      </ion-item>
+    </div>
+
+    <!-- Categoría y Monto -->
+    <div class="form-row">
+      <div class="form-group" style="flex: 1;">
+        <ion-label class="form-label">Categoría</ion-label>
+        <ion-item lines="none" class="ios-input">
+          <ion-select
+            [(ngModel)]="expense.category"
+            name="category"
+            placeholder="Comida"
+            interface="popover">
+            <ion-select-option value="Comida">Comida</ion-select-option>
+            <ion-select-option value="Transporte">Transporte</ion-select-option>
+            <ion-select-option value="Entretenimiento">Entretenimiento</ion-select-option>
+            <ion-select-option value="Compras">Compras</ion-select-option>
+            <ion-select-option value="Otros">Otros</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </div>
+
+      <div class="form-group" style="flex: 1;">
+        <ion-label class="form-label">Monto</ion-label>
+        <ion-item lines="none" class="ios-input">
+          <ion-input
+            [(ngModel)]="expense.amount"
+            name="amount"
+            type="number"
+            placeholder="€ 0.00">
+            <span slot="start">€</span>
+          </ion-input>
+        </ion-item>
+      </div>
+    </div>
+
+    <!-- Toggle de cuotas -->
+    <div class="form-group">
+      <div class="toggle-row">
+        <ion-label>¿Es compra en cuotas?</ion-label>
+        <ion-toggle
+          [(ngModel)]="expense.hasInstallments"
+          name="hasInstallments"
+          color="primary">
+        </ion-toggle>
+      </div>
+    </div>
+
+    <!-- Campos de cuotas (solo si está activo) -->
+    <div *ngIf="expense.hasInstallments" class="installments-section">
+      <div class="form-row">
+        <div class="form-group" style="flex: 1;">
+          <ion-label class="form-label">Número de cuotas</ion-label>
+          <ion-item lines="none" class="ios-input">
+            <ion-input
+              [(ngModel)]="expense.installments"
+              name="installments"
+              type="number"
+              placeholder="Ej: 12">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <div class="form-group" style="flex: 1;">
+          <ion-label class="form-label">Fecha de primer pago</ion-label>
+          <ion-item lines="none" class="ios-input">
+            <ion-input
+              [(ngModel)]="expense.firstPaymentDate"
+              name="firstPaymentDate"
+              type="date">
+            </ion-input>
+          </ion-item>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="button-group">
+      <ion-button
+        expand="block"
+        class="ios-button-large"
+        (click)="saveExpense()">
+        Guardar
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="cancel-button"
+        (click)="dismiss()">
+        Cancelar
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

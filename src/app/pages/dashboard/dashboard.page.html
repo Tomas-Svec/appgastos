@@ -1,0 +1,108 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="header-title">Dashboard</ion-title>
+    <ion-buttons slot="end">
+      <div class="user-avatar"></div>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="dashboard-content">
+    <!-- Cards Superiores -->
+    <div class="summary-cards">
+      <div class="ios-card income-card">
+        <div class="card-header">
+          <span class="card-title">Ingresos del mes</span>
+          <ion-icon name="arrow-up" class="income-icon"></ion-icon>
+        </div>
+        <div class="card-amount income-amount">{{ formatCurrency(monthlyIncome) }}</div>
+        <div class="card-percentage positive-percentage">+5.2%</div>
+      </div>
+
+      <div class="ios-card expense-card">
+        <div class="card-header">
+          <span class="card-title">Gastos del mes</span>
+          <ion-icon name="arrow-down" class="expense-icon"></ion-icon>
+        </div>
+        <div class="card-amount expense-amount">{{ formatCurrency(monthlyExpenses) }}</div>
+        <div class="card-percentage negative-percentage">-1.8%</div>
+      </div>
+
+      <div class="ios-card installments-card" (click)="openIncomeModal()">
+        <span class="card-title">Cuotas pendientes</span>
+        <div class="card-amount large-amount">{{ activeInstallments }}</div>
+      </div>
+    </div>
+
+    <!-- Balance Mensual -->
+    <div class="ios-card balance-card">
+      <h3 class="section-title">Balance Mensual</h3>
+      <div class="balance-chart">
+        <div class="chart-container">
+          <svg class="donut-svg" viewBox="0 0 36 36">
+            <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E5E5EA" stroke-width="3"></path>
+            <path class="donut-segment" [attr.stroke-dasharray]="getChartPercentage() + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22acd0" stroke-width="3" stroke-linecap="round"></path>
+          </svg>
+          <div class="chart-center">
+            <p class="balance-label">Disponible</p>
+            <p class="balance-amount">{{ formatCurrency(balance) }}</p>
+          </div>
+        </div>
+        <div class="balance-legend">
+          <div class="legend-item">
+            <div class="legend-dot primary-dot"></div>
+            <div class="legend-content">
+              <p class="legend-label">Gastado</p>
+              <p class="legend-value">{{ formatCurrency(monthlyExpenses) }}</p>
+            </div>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot gray-dot"></div>
+            <div class="legend-content">
+              <p class="legend-label">Ingresos</p>
+              <p class="legend-value">{{ formatCurrency(monthlyIncome) }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuotas Activas -->
+    <div class="section">
+      <h3 class="section-title-standalone">Cuotas Activas</h3>
+
+      <div *ngIf="installments.length === 0" class="empty-state">
+        <ion-icon name="card-outline"></ion-icon>
+        <p>No tienes cuotas activas</p>
+      </div>
+
+      <div *ngFor="let installment of installments" class="ios-card installment-item">
+        <div class="installment-header">
+          <div class="installment-icon-wrapper" [ngClass]="installment.iconClass">
+            <ion-icon [name]="installment.icon"></ion-icon>
+          </div>
+          <div class="installment-info">
+            <div class="installment-top">
+              <div class="installment-name">{{ installment.name }}</div>
+              <div class="installment-amount">{{ formatCurrency(installment.monthlyAmount) }}</div>
+            </div>
+            <div class="installment-progress-text">
+              {{ installment.paid }} de {{ installment.total }} cuotas
+            </div>
+          </div>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" [ngClass]="installment.progressClass" [style.width]="getProgressPercentage(installment) + '%'"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button class="fab-button" (click)="openExpenseModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

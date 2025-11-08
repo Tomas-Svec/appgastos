@@ -1,0 +1,108 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Tailwind CSS */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import "@ionic/angular/css/palettes/dark.always.css"; */
+/* @import "@ionic/angular/css/palettes/dark.class.css"; */
+@import "@ionic/angular/css/palettes/dark.system.css";
+
+/* Custom iOS Styles */
+* {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Card styles */
+.ios-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 12px;
+}
+
+/* Button styles */
+.ios-button {
+  --border-radius: 12px;
+  --box-shadow: none;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  height: 50px;
+}
+
+.ios-button-large {
+  --border-radius: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  height: 56px;
+}
+
+/* Input styles */
+.ios-input {
+  --background: #F2F2F7;
+  --border-radius: 12px;
+  --padding-start: 16px;
+  --padding-end: 16px;
+  font-size: 17px;
+}
+
+/* Modal styles */
+ion-modal.bottom-sheet {
+  --border-radius: 20px 20px 0 0;
+  --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
+
+  &::part(backdrop) {
+    background: rgba(0, 0, 0, 0.4);
+  }
+}
+
+.modal-handle {
+  width: 36px;
+  height: 5px;
+  border-radius: 3px;
+  background: #C7C7CC;
+  margin: 12px auto 20px;
+}
+
+/* Floating Action Button */
+.fab-button {
+  --border-radius: 50%;
+  --box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
+  width: 56px;
+  height: 56px;
+}

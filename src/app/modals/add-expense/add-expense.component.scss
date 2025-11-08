@@ -1,0 +1,96 @@
+ion-header {
+  ion-toolbar {
+    --background: white;
+    --border-color: rgba(0, 0, 0, 0.12);
+
+    ion-title {
+      font-size: 17px;
+      font-weight: 600;
+    }
+  }
+}
+
+ion-content {
+  --background: var(--ion-color-light);
+}
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ion-color-dark);
+  margin: 20px 0 8px 0;
+}
+
+.modal-subtitle {
+  font-size: 15px;
+  color: var(--ion-color-medium);
+  margin: 0 0 24px 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+
+  .form-label {
+    display: block;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ion-color-dark);
+    margin-bottom: 8px;
+  }
+
+  ion-item {
+    --background: #F2F2F7;
+    --border-radius: 12px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    border-radius: 12px;
+
+    ion-input,
+    ion-select {
+      font-size: 17px;
+    }
+  }
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  ion-label {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--ion-color-dark);
+  }
+}
+
+.installments-section {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+}
+
+.button-group {
+  margin-top: 32px;
+
+  ion-button {
+    margin-bottom: 12px;
+  }
+
+  .cancel-button {
+    --color: var(--ion-color-medium);
+    font-size: 16px;
+  }
+}

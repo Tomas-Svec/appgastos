@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Ingreso</ion-title>
+    <ion-buttons slot="start">
+      <ion-button (click)="dismiss()">
+        <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="modal-handle"></div>
+
+  <h2 class="modal-title">Ingresa tu sueldo neto mensual</h2>
+  <p class="modal-subtitle">Este valor te ayudará a calcular tus presupuestos</p>
+
+  <form>
+    <div class="amount-input-wrapper">
+      <div class="currency-symbol">€</div>
+      <ion-input
+        [(ngModel)]="monthlyIncome"
+        name="income"
+        type="number"
+        class="large-amount-input"
+        placeholder="0.00"
+        inputmode="decimal">
+      </ion-input>
+    </div>
+
+    <ion-button
+      expand="block"
+      class="ios-button-large save-button"
+      (click)="saveIncome()">
+      Guardar
+    </ion-button>
+  </form>
+</ion-content>

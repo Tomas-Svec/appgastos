@@ -1,0 +1,92 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="register-container">
+    <!-- Logo/Icon -->
+    <div class="logo-section">
+      <div class="icon-circle">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <h1>Crear cuenta</h1>
+      <p class="subtitle">Comienza a gestionar tus gastos</p>
+    </div>
+
+    <!-- Register Form -->
+    <div class="form-section">
+      <!-- Email Input -->
+      <label class="input-label">
+        <p class="label-text">Email</p>
+        <ion-item lines="none" class="ios-input">
+          <ion-input
+            [(ngModel)]="email"
+            type="email"
+            placeholder="tu@email.com"
+            autocomplete="email">
+          </ion-input>
+        </ion-item>
+      </label>
+
+      <!-- Password Input -->
+      <label class="input-label">
+        <p class="label-text">Contraseña</p>
+        <ion-item lines="none" class="ios-input">
+          <ion-input
+            [(ngModel)]="password"
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="Mínimo 6 caracteres"
+            autocomplete="new-password">
+          </ion-input>
+          <ion-button
+            slot="end"
+            fill="clear"
+            (click)="togglePasswordVisibility()">
+            <ion-icon
+              slot="icon-only"
+              [name]="showPassword ? 'eye-off-outline' : 'eye-outline'">
+            </ion-icon>
+          </ion-button>
+        </ion-item>
+      </label>
+
+      <!-- Confirm Password Input -->
+      <label class="input-label">
+        <p class="label-text">Confirmar contraseña</p>
+        <ion-item lines="none" class="ios-input">
+          <ion-input
+            [(ngModel)]="confirmPassword"
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            placeholder="Confirma tu contraseña"
+            autocomplete="new-password">
+          </ion-input>
+          <ion-button
+            slot="end"
+            fill="clear"
+            (click)="toggleConfirmPasswordVisibility()">
+            <ion-icon
+              slot="icon-only"
+              [name]="showConfirmPassword ? 'eye-off-outline' : 'eye-outline'">
+            </ion-icon>
+          </ion-button>
+        </ion-item>
+      </label>
+
+      <!-- Register Button -->
+      <ion-button
+        expand="block"
+        class="ios-button-large register-button"
+        (click)="register()">
+        Crear cuenta
+      </ion-button>
+
+      <!-- Go to Login -->
+      <div class="alternative-action">
+        <p>¿Ya tienes cuenta?</p>
+        <ion-button
+          fill="clear"
+          size="small"
+          class="link-button"
+          (click)="goToLogin()">
+          Iniciar sesión
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

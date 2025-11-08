@@ -1,0 +1,53 @@
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="login-container">
+    <!-- Logo/Icon with circular background -->
+    <div class="logo-section">
+      <div class="icon-circle">
+        <ion-icon name="wallet-outline"></ion-icon>
+      </div>
+      <h1>¡Hola de nuevo!</h1>
+    </div>
+
+    <!-- Login Form -->
+    <div class="form-section">
+      <label class="input-label">
+        <p class="label-text">Usuario o Email</p>
+        <ion-item lines="none" class="ios-input">
+          <ion-input
+            [(ngModel)]="email"
+            type="email"
+            placeholder="Introduce tu usuario o email"
+            autocomplete="email">
+          </ion-input>
+        </ion-item>
+      </label>
+
+      <!-- Face ID / Touch ID Button -->
+      <ion-button
+        expand="block"
+        class="ios-button-large biometric-button"
+        (click)="loginWithBiometric()">
+        <ion-icon slot="start" name="finger-print-outline"></ion-icon>
+        Iniciar Sesión con Face ID
+      </ion-button>
+
+      <!-- Alternative Login -->
+      <div class="alternative-login">
+        <ion-button
+          fill="clear"
+          size="small"
+          class="link-button"
+          (click)="createAccount()">
+          Crear una cuenta
+        </ion-button>
+        <ion-button
+          fill="clear"
+          size="small"
+          class="link-button"
+          (click)="forgotPassword()">
+          Ayuda para iniciar sesión
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

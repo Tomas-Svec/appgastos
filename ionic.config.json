@@ -1,0 +1,7 @@
+{
+  "name": "app-gastos",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
