@@ -1,4 +1,8 @@
+// ============= ESTILOS GENERALES =============
+
 ion-header {
+  display: none;
+
   .income-toolbar {
     --background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
@@ -15,71 +19,37 @@ ion-header {
   }
 
   .dismiss-button {
-    --color: #22acd0;
+    --color: #007AFF;
   }
 }
 
 ion-content {
   &.income-content {
     --background: #f6f7f8;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
   }
 }
 
-.income-header {
-  margin-bottom: 32px;
-}
+// ============= CONTENIDO PRINCIPAL =============
 
 .modal-title {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   color: #1C1C1E;
-  margin: 12px 0 8px 0;
+  margin: 0 0 4px 0;
   line-height: 1.2;
+  text-align: center;
 }
 
 .modal-subtitle {
-  font-size: 15px;
+  font-size: 14px;
   color: #8A8A8E;
-  margin: 0;
+  margin: 0 0 16px 0;
   line-height: 1.4;
-}
-
-.income-form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.amount-input-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-  border-radius: 16px;
-  padding: 32px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-  .currency-symbol {
-    font-size: 48px;
-    font-weight: 300;
-    color: #8A8A8E;
-    margin-right: 8px;
-  }
-
-  .large-amount-input {
-    --padding-start: 0;
-    --padding-end: 0;
-    font-size: 48px;
-    font-weight: 300;
-    color: #22acd0;
-    text-align: left;
-    max-width: 250px;
-    letter-spacing: -1px;
-
-    &::placeholder {
-      color: #D1D1D6;
-    }
-  }
+  text-align: center;
 }
 
 .error-message {
@@ -91,12 +61,56 @@ ion-content {
   border-radius: 12px;
   color: #FF3B30;
   font-size: 14px;
+  margin-bottom: 16px;
 
   ion-icon {
     font-size: 20px;
     flex-shrink: 0;
   }
 }
+
+.income-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+// ============= INPUT DE MONTO =============
+
+.amount-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 12px;
+  padding: 24px 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
+  .currency-symbol {
+    font-size: 32px;
+    font-weight: 300;
+    color: #8A8A8E;
+    margin-right: 8px;
+  }
+
+  .large-amount-input {
+    --padding-start: 0;
+    --padding-end: 0;
+    --color: #007AFF;
+    --background: transparent;
+    font-size: 36px;
+    font-weight: 600;
+    text-align: center;
+    max-width: 200px;
+    letter-spacing: -0.5px;
+
+    &::placeholder {
+      color: #D1D1D6;
+    }
+  }
+}
+
+// ============= INFO ACTUAL =============
 
 .current-income-info {
   display: flex;
@@ -105,34 +119,70 @@ ion-content {
   padding: 12px 16px;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
   .info-label {
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 600;
     color: #8A8A8E;
     margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .info-value {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 600;
-    color: #22acd0;
+    color: #007AFF;
     margin: 0;
   }
 }
 
-.save-button {
-  margin-top: 8px;
-
-  ion-spinner {
-    margin-right: 8px;
-  }
-}
+// ============= TEXTO AUXILIAR =============
 
 .helper-text {
-  font-size: 13px;
+  font-size: 12px;
   color: #8A8A8E;
   text-align: center;
   margin: 0;
   line-height: 1.4;
+}
+
+// ============= BOTONES =============
+
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+
+  ion-button {
+    height: 48px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+
+    &.save-button {
+      --background: #007AFF;
+      --background-activated: #0051D5;
+      color: white;
+
+      &:disabled {
+        opacity: 0.5;
+      }
+
+      ion-spinner {
+        margin-right: 8px;
+      }
+    }
+
+    &.cancel-button {
+      --color: #8A8A8E;
+      --background: transparent;
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
 }

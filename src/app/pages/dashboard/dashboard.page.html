@@ -5,14 +5,13 @@
       <button (click)="openIncomeModal()" class="header-add-button" ion-button>
         <span class="add-button-text">+</span>
       </button>
-      <div class="user-avatar"></div>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <div class="dashboard-content">
-    <!-- Cards Superiores -->
+    <!-- Cards Superiores - Grid Responsivo -->
     <div class="summary-cards">
       <div class="ios-card income-card">
         <div class="card-header">
@@ -43,9 +42,9 @@
       <h3 class="section-title">Balance Mensual</h3>
       <div class="balance-chart">
         <div class="chart-container">
-          <svg class="donut-svg" viewBox="0 0 36 36">
-            <path class="donut-ring" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#E5E5EA" stroke-width="3"></path>
-            <path class="donut-segment" [attr.stroke-dasharray]="getChartPercentage() + ', 100'" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#22acd0" stroke-width="3" stroke-linecap="round"></path>
+          <svg class="donut-svg" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="45" fill="none" stroke="#E5E5EA" stroke-width="8"></circle>
+            <circle cx="60" cy="60" r="45" fill="none" stroke="#007AFF" stroke-width="8" [attr.stroke-dasharray]="getChartDasharray()" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
           </svg>
           <div class="chart-center">
             <p class="balance-label">Disponible</p>
@@ -97,6 +96,34 @@
         </div>
         <div class="progress-bar">
           <div class="progress-fill" [ngClass]="installment.progressClass" [style.width]="getProgressPercentage(installment) + '%'"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historial de Gastos -->
+    <div class="section">
+      <h3 class="section-title-standalone">Historial de Gastos</h3>
+
+      <div *ngIf="expenses.length === 0" class="empty-state">
+        <ion-icon name="receipt-outline"></ion-icon>
+        <p>No tienes gastos registrados</p>
+      </div>
+
+      <div *ngFor="let expense of expenses" class="ios-card expense-item">
+        <div class="expense-header">
+          <div class="expense-icon-wrapper" [ngClass]="getExpenseIconClass(expense.category)">
+            <ion-icon [name]="getExpenseIcon(expense.category)"></ion-icon>
+          </div>
+          <div class="expense-info">
+            <div class="expense-top">
+              <div class="expense-name">{{ expense.description }}</div>
+              <div class="expense-amount negative">-{{ formatCurrency(expense.amount) }}</div>
+            </div>
+            <div class="expense-details">
+              <span class="expense-category">{{ expense.category }}</span>
+              <span class="expense-date">{{ formatDate(expense.createdAt) }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

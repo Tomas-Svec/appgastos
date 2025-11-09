@@ -34,6 +34,7 @@ export class DashboardPage implements OnInit {
   currentMonth: string = '';
 
   installments: Installment[] = [];
+  expenses: Expense[] = [];
   isLoading: boolean = false;
   currentUserId: number | null = null;
 
@@ -61,15 +62,18 @@ export class DashboardPage implements OnInit {
     this.isLoading = true;
     try {
       // Cargar todos los gastos del usuario
-      const expenses = await this.expenseService.getExpensesByUser(this.currentUserId);
+      const allExpenses = await this.expenseService.getExpensesByUser(this.currentUserId);
 
       // Calcular gastos totales del mes actual
-      this.monthlyExpenses = this.calculateMonthlyExpenses(expenses);
+      this.monthlyExpenses = this.calculateMonthlyExpenses(allExpenses);
 
       // Cargar cuotas activas
       const activeInstallmentsData = await this.expenseService.getActiveInstallments(this.currentUserId);
       this.installments = this.mapExpensesToInstallments(activeInstallmentsData);
       this.activeInstallments = this.installments.length;
+
+      // Cargar historial de gastos (últimos gastos sin cuotas)
+      this.expenses = this.getRecentExpenses(allExpenses, 10);
 
       this.calculateBalance();
     } catch (error) {
@@ -128,7 +132,7 @@ export class DashboardPage implements OnInit {
   formatCurrency(amount: number): string {
     return new Intl.NumberFormat('es-ES', {
       style: 'currency',
-      currency: 'EUR',
+      currency: 'USD',
       minimumFractionDigits: 2
     }).format(amount);
   }
@@ -139,7 +143,17 @@ export class DashboardPage implements OnInit {
 
   getChartPercentage(): number {
     // Calculate spent percentage (gastos / ingresos * 100)
-    return (this.monthlyExpenses / this.monthlyIncome) * 100;
+    if (this.monthlyIncome === 0) return 0;
+    return Math.min((this.monthlyExpenses / this.monthlyIncome) * 100, 100);
+  }
+
+  getChartDasharray(): string {
+    // Calculate the circumference of the circle (2 * pi * r)
+    // For radius 45: 2 * PI * 45 = 282.6
+    const percentage = this.getChartPercentage();
+    const circumference = 282.6;
+    const filled = (percentage / 100) * circumference;
+    return `${filled} ${circumference}`;
   }
 
   async openExpenseModal() {
@@ -235,5 +249,67 @@ export class DashboardPage implements OnInit {
       'Otros': '#8E8E93'
     };
     return colors[category] || '#007AFF';
+  }
+
+  getExpenseIcon(category: string): string {
+    const icons: { [key: string]: string } = {
+      'Comida': 'restaurant-outline',
+      'Transporte': 'car-outline',
+      'Entretenimiento': 'game-controller-outline',
+      'Compras': 'cart-outline',
+      'Salud': 'fitness-outline',
+      'Educación': 'school-outline',
+      'Servicios': 'construct-outline',
+      'Otros': 'ellipsis-horizontal-outline'
+    };
+    return icons[category] || 'pricetag-outline';
+  }
+
+  getExpenseIconClass(category: string): string {
+    const classes: { [key: string]: string } = {
+      'Comida': 'icon-orange',
+      'Transporte': 'icon-blue',
+      'Entretenimiento': 'icon-purple',
+      'Compras': 'icon-red',
+      'Salud': 'icon-green',
+      'Educación': 'icon-purple',
+      'Servicios': 'icon-orange',
+      'Otros': 'icon-gray'
+    };
+    return classes[category] || 'icon-blue';
+  }
+
+  formatDate(date: string | Date | undefined): string {
+    if (!date) return 'N/A';
+
+    const dateObj = typeof date === 'string' ? new Date(date) : date;
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const isToday = dateObj.toDateString() === today.toDateString();
+    const isYesterday = dateObj.toDateString() === yesterday.toDateString();
+
+    if (isToday) {
+      return 'Hoy';
+    } else if (isYesterday) {
+      return 'Ayer';
+    } else {
+      return dateObj.toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: 'short',
+        year: dateObj.getFullYear() === today.getFullYear() ? undefined : 'numeric'
+      });
+    }
+  }
+
+  private getRecentExpenses(expenses: Expense[], limit: number): Expense[] {
+    return expenses
+      .sort((a, b) => {
+        const dateA = new Date(a.createdAt || 0).getTime();
+        const dateB = new Date(b.createdAt || 0).getTime();
+        return dateB - dateA;
+      })
+      .slice(0, limit);
   }
 }

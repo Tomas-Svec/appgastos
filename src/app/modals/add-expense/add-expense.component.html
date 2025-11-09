@@ -1,17 +1,10 @@
 <ion-header>
   <ion-toolbar class="expense-toolbar">
     <ion-title>Nuevo Gasto</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="dismiss()" class="dismiss-button">
-        <ion-icon name="close" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding expense-content">
-  <div class="modal-handle"></div>
-
   <h2 class="modal-title">Registrar Gasto</h2>
   <p class="modal-subtitle">Ingresa los detalles de tu gasto</p>
 
@@ -24,13 +17,12 @@
   <form class="expense-form">
     <!-- Descripción del gasto -->
     <div class="form-group">
-      <ion-label class="form-label">Descripción</ion-label>
       <ion-item lines="none" class="ios-input">
         <ion-input
           [(ngModel)]="expense.description"
           name="description"
           type="text"
-          placeholder="Ej: Café con amigos"
+          placeholder="Descripción del gasto"
           [disabled]="isLoading">
         </ion-input>
       </ion-item>
@@ -69,48 +61,13 @@
             placeholder="0.00"
             inputmode="decimal"
             [disabled]="isLoading">
-            <span slot="start">€</span>
+            <span slot="start">$</span>
           </ion-input>
         </ion-item>
       </div>
     </div>
 
-    <!-- Formulario de nueva categoría -->
-    <div *ngIf="showCategoryForm" class="new-category-form">
-      <div class="form-group">
-        <ion-label class="form-label">Nombre de la categoría</ion-label>
-        <ion-item lines="none" class="ios-input">
-          <ion-input
-            [(ngModel)]="newCategoryName"
-            name="newCategoryName"
-            type="text"
-            placeholder="Ej: Mascotas"
-            [disabled]="isLoading">
-          </ion-input>
-        </ion-item>
-      </div>
-
-      <div class="category-button-group">
-        <ion-button
-          expand="block"
-          size="small"
-          class="add-category-button"
-          (click)="addCategory()"
-          [disabled]="isLoading">
-          <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-          <span *ngIf="!isLoading">Crear Categoría</span>
-        </ion-button>
-        <ion-button
-          expand="block"
-          size="small"
-          fill="clear"
-          (click)="toggleCategoryForm()">
-          Cancelar
-        </ion-button>
-      </div>
-    </div>
-
-    <!-- Listado de categorías para eliminar -->
+    <!-- Mis Categorías -->
     <div class="categories-list">
       <p class="categories-title">Mis categorías</p>
       <div class="categories-grid">
@@ -123,6 +80,44 @@
             [disabled]="isLoading">
             <ion-icon name="close-circle"></ion-icon>
           </button>
+        </div>
+        <button type="button" class="add-new-category-btn" (click)="toggleCategoryForm()">
+          Añadir Nueva
+        </button>
+      </div>
+
+      <!-- Formulario de nueva categoría -->
+      <div *ngIf="showCategoryForm" class="new-category-form">
+        <div class="form-group">
+          <ion-label class="form-label">Nombre de la categoría</ion-label>
+          <ion-item lines="none" class="ios-input">
+            <ion-input
+              [(ngModel)]="newCategoryName"
+              name="newCategoryName"
+              type="text"
+              placeholder="Ej: Mascotas"
+              [disabled]="isLoading">
+            </ion-input>
+          </ion-item>
+        </div>
+
+        <div class="category-button-group">
+          <ion-button
+            expand="block"
+            size="small"
+            class="add-category-button"
+            (click)="addCategory()"
+            [disabled]="isLoading">
+            <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            <span *ngIf="!isLoading">Crear Categoría</span>
+          </ion-button>
+          <ion-button
+            expand="block"
+            size="small"
+            fill="clear"
+            (click)="toggleCategoryForm()">
+            Cancelar
+          </ion-button>
         </div>
       </div>
     </div>

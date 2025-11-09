@@ -1,43 +1,36 @@
+// ============= ESTILOS GENERALES =============
+
 ion-header {
-  .expense-toolbar {
-    --background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    --border-color: rgba(0, 0, 0, 0.08);
-    --padding-top: 8px;
-    --padding-bottom: 8px;
-
-    ion-title {
-      font-size: 17px;
-      font-weight: 600;
-      color: #1C1C1E;
-    }
-  }
-
-  .dismiss-button {
-    --color: #22acd0;
-  }
+  display: none;
 }
 
 ion-content {
   &.expense-content {
     --background: #f6f7f8;
+    --padding-top: 16px;
+    --padding-bottom: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
   }
 }
 
+// ============= CONTENIDO PRINCIPAL =============
+
 .modal-title {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   color: #1C1C1E;
-  margin: 12px 0 8px 0;
+  margin: 0 0 4px 0;
   line-height: 1.2;
+  text-align: center;
 }
 
 .modal-subtitle {
-  font-size: 15px;
+  font-size: 14px;
   color: #8A8A8E;
-  margin: 0 0 24px 0;
+  margin: 0 0 16px 0;
   line-height: 1.4;
+  text-align: center;
 }
 
 .error-message {
@@ -60,18 +53,22 @@ ion-content {
 .expense-form {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
+// ============= FORM GROUPS =============
+
 .form-group {
-  margin-bottom: 16px;
+  margin-bottom: 0;
 
   .form-label {
     display: block;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    color: #1C1C1E;
+    color: #8A8A8E;
     margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
   .form-label-with-action {
@@ -82,6 +79,11 @@ ion-content {
 
     .form-label {
       margin: 0;
+      text-transform: none;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1C1C1E;
+      letter-spacing: normal;
     }
 
     .add-category-link {
@@ -89,7 +91,7 @@ ion-content {
       border: none;
       padding: 0;
       cursor: pointer;
-      color: #22acd0;
+      color: #007AFF;
       display: flex;
       align-items: center;
 
@@ -106,27 +108,41 @@ ion-content {
   ion-item {
     --background: white;
     --border-radius: 12px;
-    --padding-start: 16px;
-    --padding-end: 16px;
+    --padding-start: 0;
+    --padding-end: 0;
+    --inner-padding-start: 0;
+    --inner-padding-end: 0;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    margin: 0 !important;
 
     ion-input,
     ion-select {
       font-size: 16px;
       color: #1C1C1E;
+      --padding-start: 16px;
+      --padding-end: 16px;
+      --color: #1C1C1E;
+      --background: transparent;
     }
 
     &[disabled] {
       opacity: 0.6;
     }
   }
+
+  // Anula estilos globales de ios-input
+  &.ios-input {
+    --background: white !important;
+    --padding-start: 0 !important;
+    --padding-end: 0 !important;
+  }
 }
 
 .form-row {
   display: flex;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 
   .form-group {
     flex: 1;
@@ -134,43 +150,22 @@ ion-content {
   }
 }
 
-.new-category-form {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 16px;
-
-  .form-group {
-    margin-bottom: 12px;
-  }
-
-  .category-button-group {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-
-    ion-button {
-      flex: 1;
-      margin: 0;
-    }
-  }
-}
+// ============= CATEGORÍAS =============
 
 .categories-list {
   background: white;
   padding: 16px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  margin-bottom: 0;
 
   .categories-title {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     color: #8A8A8E;
     margin: 0 0 12px 0;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.7px;
   }
 
   .categories-grid {
@@ -181,11 +176,11 @@ ion-content {
     .category-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       padding: 8px 12px;
-      background: #f6f7f8;
-      border-radius: 20px;
-      border: 1px solid #E5E5EA;
+      background: #F2F2F7;
+      border-radius: 16px;
+      border: none;
 
       .category-name {
         font-size: 13px;
@@ -198,10 +193,11 @@ ion-content {
         border: none;
         padding: 0;
         cursor: pointer;
-        color: #FF3B30;
+        color: #999;
         display: flex;
         align-items: center;
         font-size: 16px;
+        line-height: 1;
 
         ion-icon {
           font-size: 16px;
@@ -211,10 +207,78 @@ ion-content {
           opacity: 0.5;
           cursor: not-allowed;
         }
+
+        &:hover {
+          color: #1C1C1E;
+        }
+      }
+    }
+
+    .add-new-category-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 12px;
+      background: #E3F2FD;
+      border: none;
+      border-radius: 16px;
+      color: #007AFF;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:hover:not(:disabled) {
+        background: #BBDEFB;
       }
     }
   }
 }
+
+.new-category-form {
+  background: #F9F9F9;
+  padding: 12px 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 12px 0 0 0;
+  border-top: 1px solid #E5E5EA;
+  padding-top: 12px;
+
+  .form-group {
+    margin-bottom: 8px;
+
+    ion-item {
+      --background: white;
+      --border-radius: 12px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .category-button-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+
+    ion-button {
+      flex: 1;
+      margin: 0;
+      height: 36px;
+      font-size: 14px;
+
+      &.add-category-button {
+        --background: #007AFF;
+      }
+    }
+  }
+}
+
+// ============= TOGGLE SWITCH =============
 
 .toggle-row {
   display: flex;
@@ -223,56 +287,83 @@ ion-content {
   background: white;
   padding: 16px;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
 
   ion-label {
     font-size: 16px;
     font-weight: 500;
     color: #1C1C1E;
+    margin: 0;
   }
 
   ion-toggle {
     --handle-background: white;
     --handle-background-checked: white;
     --background: #E5E5EA;
-    --background-checked: #22acd0;
+    --background-checked: #007AFF;
+    margin: 0;
   }
 }
 
+// ============= SECCIÓN DE CUOTAS =============
+
 .installments-section {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  margin-bottom: 16px;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
 
   .form-row {
     margin-bottom: 0;
   }
-}
 
-.button-group {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-
-  .save-button {
-    --background: #22acd0;
-    --background-activated: #1a8ba8;
-    color: white;
-
-    &:disabled {
-      opacity: 0.5;
-    }
-
-    ion-spinner {
-      margin-right: 8px;
+  .form-group {
+    ion-item {
+      --background: white;
+      --border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      margin-bottom: 12px;
     }
   }
+}
 
-  .cancel-button {
-    --color: #8A8A8E;
+// ============= BOTONES =============
+
+.button-group {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 12px;
+
+  ion-button {
+    height: 48px;
     font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+
+    &.save-button {
+      --background: #007AFF;
+      --background-activated: #0051D5;
+      color: white;
+
+      &:disabled {
+        opacity: 0.5;
+      }
+
+      ion-spinner {
+        margin-right: 8px;
+      }
+    }
+
+    &.cancel-button {
+      --color: #8A8A8E;
+      --background: transparent;
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
   }
 }

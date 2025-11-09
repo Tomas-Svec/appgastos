@@ -21,18 +21,18 @@ ion-header {
   }
 
   .header-add-button {
-    --color: #22acd0;
+    --color: #007AFF;
     --padding-start: 12px;
     --padding-end: 12px;
     margin-right: 12px;
     border: none;
-    background: transparent;
+    background: #f6f7f8;
     cursor: pointer;
 
     .add-button-text {
       font-size: 32px;
       font-weight: 300;
-      color: #22acd0;
+      color: #007AFF;
       line-height: 1;
     }
 
@@ -65,7 +65,7 @@ ion-content {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-  margin-bottom: 24px;
+  margin-bottom: 15px;
 
   .ios-card {
     display: flex;
@@ -150,36 +150,40 @@ ion-content {
 // Balance Card
 .balance-card {
   margin-bottom: 24px;
+  background: #FFFFFF;
+  //padding: 24px !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
 
   .section-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0 0 16px 0;
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
     color: #1C1C1E;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
   }
 
   .balance-chart {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-
     @media (min-width: 640px) {
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
     }
   }
 
   .chart-container {
     position: relative;
-    width: 160px;
-    height: 160px;
+    width: 250px;
+    height: 250px;
     flex-shrink: 0;
 
     .donut-svg {
       width: 100%;
       height: 100%;
-      transform: rotate(-90deg);
     }
 
     .chart-center {
@@ -190,18 +194,23 @@ ion-content {
       display: flex;
       flex-direction: column;
       align-items: center;
+      text-align: center;
 
       .balance-label {
-        font-size: 12px;
+        font-size: 11px;
         color: #8A8A8E;
         margin: 0 0 4px 0;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        text-transform: capitalize;
       }
 
       .balance-amount {
-        font-size: 24px;
+        font-size: 28px;
         font-weight: 700;
         color: #1C1C1E;
         margin: 0;
+        text-shadow: none;
       }
     }
   }
@@ -213,10 +222,14 @@ ion-content {
     width: 100%;
     flex: 1;
 
+    @media (min-width: 640px) {
+      gap: 16px;
+    }
+
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
 
       .legend-dot {
         width: 12px;
@@ -225,11 +238,11 @@ ion-content {
         flex-shrink: 0;
 
         &.primary-dot {
-          background: #22acd0;
+          background: #007AFF;
         }
 
         &.gray-dot {
-          background: #E5E5EA;
+          background: #D1D1D6;
         }
       }
 
@@ -237,13 +250,14 @@ ion-content {
         flex: 1;
 
         .legend-label {
-          font-size: 14px;
+          font-size: 12px;
           color: #8A8A8E;
           margin: 0;
+          font-weight: 400;
         }
 
         .legend-value {
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 600;
           color: #1C1C1E;
           margin: 0;
@@ -426,14 +440,215 @@ ion-content {
   }
 }
 
+// Expense History
+.expense-item {
+  margin-bottom: 8px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  .expense-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    .expense-icon-wrapper {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      ion-icon {
+        font-size: 24px;
+        color: white;
+      }
+
+      &.icon-blue {
+        background: rgba(94, 121, 255, 0.15);
+
+        ion-icon {
+          color: #22acd0;
+        }
+      }
+
+      &.icon-green {
+        background: rgba(52, 199, 89, 0.15);
+
+        ion-icon {
+          color: #34C759;
+        }
+      }
+
+      &.icon-purple {
+        background: rgba(175, 82, 222, 0.15);
+
+        ion-icon {
+          color: #AF52DE;
+        }
+      }
+
+      &.icon-orange {
+        background: rgba(255, 149, 0, 0.15);
+
+        ion-icon {
+          color: #FF9500;
+        }
+      }
+
+      &.icon-red {
+        background: rgba(255, 59, 48, 0.15);
+
+        ion-icon {
+          color: #FF3B30;
+        }
+      }
+
+      &.icon-gray {
+        background: rgba(142, 142, 147, 0.15);
+
+        ion-icon {
+          color: #8E8E93;
+        }
+      }
+    }
+
+    .expense-info {
+      flex: 1;
+
+      .expense-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 4px;
+
+        .expense-name {
+          font-size: 16px;
+          font-weight: 600;
+          color: #1C1C1E;
+        }
+
+        .expense-amount {
+          font-size: 15px;
+          font-weight: 500;
+          color: #1C1C1E;
+
+          &.negative {
+            color: #FF3B30;
+          }
+        }
+      }
+
+      .expense-details {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+
+        .expense-category {
+          font-size: 13px;
+          color: #8A8A8E;
+          font-weight: 500;
+        }
+
+        .expense-date {
+          font-size: 13px;
+          color: #8A8A8E;
+        }
+      }
+    }
+  }
+}
+
+// Dark Mode Support
+.dark {
+  ion-content {
+    --background: #121d20;
+  }
+
+  .ios-card {
+    background: #1C1C1E;
+    color: #FFFFFF;
+
+    .card-title {
+      color: #8E8E93;
+    }
+
+    .card-amount {
+      color: #FFFFFF;
+    }
+  }
+
+  .balance-card {
+    background: #1C1C1E;
+
+    .section-title {
+      color: #FFFFFF;
+    }
+
+    .balance-label {
+      color: #8E8E93;
+    }
+
+    .balance-amount {
+      color: #FFFFFF;
+    }
+
+    .legend-label {
+      color: #8E8E93;
+    }
+
+    .legend-value {
+      color: #FFFFFF;
+    }
+
+    .legend-dot {
+      &.gray-dot {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+
+    svg circle {
+      stroke: #3A3A3C;
+
+      &.primary {
+        stroke: #007AFF;
+      }
+    }
+  }
+
+  .section-title-standalone {
+    color: #FFFFFF;
+  }
+
+  .expense-item {
+    background: #1C1C1E;
+
+    .expense-name {
+      color: #FFFFFF;
+    }
+
+    .expense-category,
+    .expense-date {
+      color: #8E8E93;
+    }
+  }
+
+  .empty-state {
+    color: #8E8E93;
+  }
+}
+
 // FAB Button
 ion-fab {
   margin: 0 24px 24px 0;
 
   ion-fab-button {
-    --background: #22acd0;
+    --background: #007AFF;
     --color: white;
-    --box-shadow: 0 8px 16px rgba(34, 172, 208, 0.3);
+    --box-shadow: 0 8px 16px rgba(0, 122, 255, 0.3);
     width: 56px;
     height: 56px;
 
@@ -443,7 +658,7 @@ ion-fab {
 
     &:active {
       transform: scale(0.95);
-      --box-shadow: 0 4px 8px rgba(34, 172, 208, 0.2);
+      --box-shadow: 0 4px 8px rgba(0, 122, 255, 0.2);
     }
 
     ion-icon {

@@ -1,25 +1,23 @@
 <ion-header>
   <ion-toolbar class="income-toolbar">
     <ion-title>Presupuesto Mensual</ion-title>
-    <ion-buttons slot="start">
-      <ion-button (click)="dismiss()" class="dismiss-button">
-        <ion-icon name="chevron-back" slot="icon-only"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding income-content">
-  <div class="modal-handle"></div>
+  <h2 class="modal-title">Define tu presupuesto</h2>
+  <p class="modal-subtitle">Ingresa el dinero disponible para este mes</p>
 
-  <div class="income-header">
-    <h2 class="modal-title">Define tu presupuesto</h2>
-    <p class="modal-subtitle">Ingresa el dinero disponible para este mes</p>
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error-message">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <span>{{ errorMessage }}</span>
   </div>
 
   <form class="income-form">
+    <!-- Amount Input -->
     <div class="amount-input-wrapper">
-      <div class="currency-symbol">€</div>
+      <div class="currency-symbol">$</div>
       <ion-input
         [(ngModel)]="monthlyIncome"
         name="income"
@@ -31,30 +29,37 @@
       </ion-input>
     </div>
 
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error-message">
-      <ion-icon name="alert-circle-outline"></ion-icon>
-      <span>{{ errorMessage }}</span>
-    </div>
-
     <!-- Current Income Display -->
     <div class="current-income-info">
       <p class="info-label">Presupuesto actual:</p>
       <p class="info-value">{{ formatCurrency(monthlyIncome) }}</p>
     </div>
 
-    <ion-button
-      expand="block"
-      class="ios-button-large save-button"
-      (click)="saveIncome()"
-      [disabled]="isLoading || monthlyIncome <= 0">
-      <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-      <span *ngIf="!isLoading">Guardar Presupuesto</span>
-      <span *ngIf="isLoading">Guardando...</span>
-    </ion-button>
-
+    <!-- Helper Text -->
     <p class="helper-text">
       Este presupuesto te servirá de guía durante el mes. Los gastos se descontarán automáticamente.
     </p>
+
+    <!-- Buttons -->
+    <div class="button-group">
+      <ion-button
+        expand="block"
+        class="ios-button-large save-button"
+        (click)="saveIncome()"
+        [disabled]="isLoading || monthlyIncome <= 0">
+        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+        <span *ngIf="!isLoading">Guardar Presupuesto</span>
+        <span *ngIf="isLoading">Guardando...</span>
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="clear"
+        class="cancel-button"
+        (click)="dismiss()"
+        [disabled]="isLoading">
+        Cancelar
+      </ion-button>
+    </div>
   </form>
 </ion-content>
