@@ -4,9 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { AddExpenseComponent } from '../../modals/add-expense/add-expense.component';
 import { AddIncomeComponent } from '../../modals/add-income/add-income.component';
+import { ExpenseService } from '../../services/expense.service';
+import { AuthService } from '../../services/auth.service';
+import { Expense } from '../../models';
 
 interface Installment {
-  id: string;
+  id: string | number;
   name: string;
   icon: string;
   iconClass: string;
@@ -24,50 +27,89 @@ interface Installment {
   imports: [CommonModule, FormsModule, IonicModule]
 })
 export class DashboardPage implements OnInit {
-  monthlyIncome: number = 5250.00;
-  monthlyExpenses: number = 1830.50;
-  balance: number = 3419.50;
-  activeInstallments: number = 4;
+  monthlyIncome: number = 0;
+  monthlyExpenses: number = 0;
+  balance: number = 0;
+  activeInstallments: number = 0;
   currentMonth: string = '';
 
-  installments: Installment[] = [
-    {
-      id: '1',
-      name: 'MacBook Pro 14"',
-      icon: 'laptop-outline',
-      iconClass: 'icon-blue',
-      progressClass: 'progress-primary',
-      monthlyAmount: 249.99,
-      paid: 3,
-      total: 12
-    },
-    {
-      id: '2',
-      name: 'Spotify Premium',
-      icon: 'musical-notes-outline',
-      iconClass: 'icon-green',
-      progressClass: 'progress-green',
-      monthlyAmount: 9.99,
-      paid: 10,
-      total: 12
-    },
-    {
-      id: '3',
-      name: 'Membresía Gym',
-      icon: 'barbell-outline',
-      iconClass: 'icon-purple',
-      progressClass: 'progress-purple',
-      monthlyAmount: 45.00,
-      paid: 6,
-      total: 6
-    }
-  ];
+  installments: Installment[] = [];
+  isLoading: boolean = false;
+  currentUserId: number | null = null;
 
-  constructor(private modalController: ModalController) { }
+  constructor(
+    private modalController: ModalController,
+    private expenseService: ExpenseService,
+    private authService: AuthService
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.setCurrentMonth();
-    this.calculateBalance();
+
+    // Obtener usuario autenticado
+    const currentUser = this.authService.currentUserValue;
+    if (currentUser && currentUser.id) {
+      this.currentUserId = currentUser.id;
+      this.monthlyIncome = currentUser.monthlyIncome || 0;
+      await this.loadExpenses();
+    }
+  }
+
+  async loadExpenses() {
+    if (!this.currentUserId) return;
+
+    this.isLoading = true;
+    try {
+      // Cargar todos los gastos del usuario
+      const expenses = await this.expenseService.getExpensesByUser(this.currentUserId);
+
+      // Calcular gastos totales del mes actual
+      this.monthlyExpenses = this.calculateMonthlyExpenses(expenses);
+
+      // Cargar cuotas activas
+      const activeInstallmentsData = await this.expenseService.getActiveInstallments(this.currentUserId);
+      this.installments = this.mapExpensesToInstallments(activeInstallmentsData);
+      this.activeInstallments = this.installments.length;
+
+      this.calculateBalance();
+    } catch (error) {
+      console.error('Error loading expenses:', error);
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private calculateMonthlyExpenses(expenses: Expense[]): number {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+
+    return expenses
+      .filter(expense => {
+        const expenseDate = new Date(expense.firstPaymentDate || expense.createdAt || '');
+        return expenseDate.getMonth() === currentMonth && expenseDate.getFullYear() === currentYear;
+      })
+      .reduce((total, expense) => {
+        if (expense.hasInstallments) {
+          return total + ((expense.amount || 0) / (expense.installments || 1));
+        }
+        return total + (expense.amount || 0);
+      }, 0);
+  }
+
+  private mapExpensesToInstallments(expenses: Expense[]): Installment[] {
+    return expenses
+      .filter(e => e.hasInstallments && e.installments && e.installments > 1)
+      .map(expense => ({
+        id: expense.id || 0,
+        name: expense.description,
+        icon: this.getCategoryIcon(expense.category),
+        iconClass: this.getCategoryIconClass(expense.category),
+        progressClass: this.getCategoryProgressClass(expense.category),
+        monthlyAmount: (expense.amount || 0) / (expense.installments || 1),
+        paid: expense.paidInstallments || 0,
+        total: expense.installments || 1
+      }));
   }
 
   setCurrentMonth() {
@@ -111,10 +153,10 @@ export class DashboardPage implements OnInit {
     await modal.present();
 
     const { data } = await modal.onWillDismiss();
-    if (data) {
+    if (data && data.success !== false) {
       console.log('Expense data:', data);
-      // Aquí procesarías los datos del gasto
-      this.updateExpenses(data);
+      // Recargar los datos del dashboard
+      await this.loadExpenses();
     }
   }
 
@@ -129,30 +171,28 @@ export class DashboardPage implements OnInit {
     await modal.present();
 
     const { data } = await modal.onWillDismiss();
-    if (data) {
+    if (data && data.success !== false) {
       console.log('Income data:', data);
-      // Aquí procesarías los datos del ingreso
-      this.updateIncome(data);
+      // Actualizar el ingreso mensual
+      if (data && data.amount) {
+        this.monthlyIncome = data.amount;
+        this.calculateBalance();
+      }
     }
   }
 
-  updateExpenses(expenseData: any) {
-    // Lógica para actualizar gastos
-    if (expenseData.hasInstallments) {
-      this.installments.push({
-        id: Date.now().toString(),
-        name: expenseData.description,
-        icon: this.getCategoryIcon(expenseData.category),
-        iconClass: this.getCategoryIconClass(expenseData.category),
-        progressClass: this.getCategoryProgressClass(expenseData.category),
-        monthlyAmount: expenseData.amount / expenseData.installments,
-        paid: 0,
-        total: expenseData.installments
-      });
-    }
-
-    this.monthlyExpenses += expenseData.monthlyAmount || expenseData.amount;
-    this.calculateBalance();
+  getCategoryIcon(category: string): string {
+    const icons: { [key: string]: string } = {
+      'Comida': 'restaurant-outline',
+      'Transporte': 'car-outline',
+      'Entretenimiento': 'game-controller-outline',
+      'Compras': 'cart-outline',
+      'Salud': 'fitness-outline',
+      'Educación': 'school-outline',
+      'Servicios': 'construct-outline',
+      'Otros': 'ellipsis-horizontal-outline'
+    };
+    return icons[category] || 'pricetag-outline';
   }
 
   getCategoryIconClass(category: string): string {
@@ -161,6 +201,9 @@ export class DashboardPage implements OnInit {
       'Transporte': 'icon-blue',
       'Entretenimiento': 'icon-purple',
       'Compras': 'icon-red',
+      'Salud': 'icon-green',
+      'Educación': 'icon-purple',
+      'Servicios': 'icon-orange',
       'Otros': 'icon-gray'
     };
     return classes[category] || 'icon-blue';
@@ -172,26 +215,12 @@ export class DashboardPage implements OnInit {
       'Transporte': 'progress-primary',
       'Entretenimiento': 'progress-purple',
       'Compras': 'progress-red',
+      'Salud': 'progress-green',
+      'Educación': 'progress-purple',
+      'Servicios': 'progress-orange',
       'Otros': 'progress-gray'
     };
     return classes[category] || 'progress-primary';
-  }
-
-  updateIncome(incomeData: any) {
-    // Lógica para actualizar ingresos
-    this.monthlyIncome = incomeData.amount;
-    this.calculateBalance();
-  }
-
-  getCategoryIcon(category: string): string {
-    const icons: { [key: string]: string } = {
-      'Comida': 'restaurant-outline',
-      'Transporte': 'car-outline',
-      'Entretenimiento': 'game-controller-outline',
-      'Compras': 'cart-outline',
-      'Otros': 'ellipsis-horizontal-outline'
-    };
-    return icons[category] || 'card-outline';
   }
 
   getCategoryColor(category: string): string {
@@ -200,6 +229,9 @@ export class DashboardPage implements OnInit {
       'Transporte': '#5AC8FA',
       'Entretenimiento': '#AF52DE',
       'Compras': '#FF3B30',
+      'Salud': '#34C759',
+      'Educación': '#AF52DE',
+      'Servicios': '#FF9500',
       'Otros': '#8E8E93'
     };
     return colors[category] || '#007AFF';

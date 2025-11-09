@@ -20,6 +20,27 @@ ion-header {
     color: #1C1C1E;
   }
 
+  .header-add-button {
+    --color: #22acd0;
+    --padding-start: 12px;
+    --padding-end: 12px;
+    margin-right: 12px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+
+    .add-button-text {
+      font-size: 32px;
+      font-weight: 300;
+      color: #22acd0;
+      line-height: 1;
+    }
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+
   .user-avatar {
     width: 40px;
     height: 40px;
