@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#22acd0",
+        primary: "#8697ff",
         "background-light": "#f6f7f8",
         "background-dark": "#121d20",
         "component-light": "#FFFFFF",
@@ -16,16 +16,17 @@ module.exports = {
         "text-primary-dark": "#FFFFFF",
         "text-secondary-light": "#8A8A8E",
         "text-secondary-dark": "#8E8E93",
-        positive: "#34C759",
-        negative: "#FF3B30"
+        positive: "#51fd8f",
+        negative: "#dc252e",
+        income: "#f5f934"
       },
       fontFamily: {
         display: ["Inter", "sans-serif"]
       },
       borderRadius: {
-        DEFAULT: "0.5rem",
-        lg: "1rem",
-        xl: "1.5rem",
+        DEFAULT: "1rem",
+        lg: "2rem",
+        xl: "3rem",
         full: "9999px"
       },
       boxShadow: {

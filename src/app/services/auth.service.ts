@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DatabaseService, User } from './database.service';
+import { DatabaseService } from './database.service';
+import { UserService } from './user.service';
+import { CategoryService } from './category.service';
+import { User } from '../models';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NativeBiometric, BiometryType } from 'capacitor-native-biometric';
 
@@ -11,7 +14,11 @@ export class AuthService {
   public currentUser: Observable<User | null>;
   private readonly BIOMETRIC_CREDENTIALS_KEY = 'biometric_credentials';
 
-  constructor(private databaseService: DatabaseService) {
+  constructor(
+    private databaseService: DatabaseService,
+    private userService: UserService,
+    private categoryService: CategoryService
+  ) {
     const storedUser = this.getStoredUser();
     this.currentUserSubject = new BehaviorSubject<User | null>(storedUser);
     this.currentUser = this.currentUserSubject.asObservable();
@@ -23,6 +30,8 @@ export class AuthService {
 
   async initialize(): Promise<void> {
     await this.databaseService.initializeDatabase();
+    // Inicializar categorías por defecto
+    await this.categoryService.initializeDefaultCategories();
   }
 
   // ============ REGISTRO ============
@@ -43,10 +52,10 @@ export class AuthService {
       const hashedPassword = await this.hashPassword(password);
 
       // Crear usuario en la base de datos
-      const userId = await this.databaseService.createUser(email, hashedPassword);
+      const userId = await this.userService.createUser(email, hashedPassword);
 
       // Obtener el usuario creado
-      const user = await this.databaseService.getUserByEmail(email);
+      const user = await this.userService.getUserByEmail(email);
 
       if (!user) {
         throw new Error('Error al crear el usuario');
@@ -71,7 +80,7 @@ export class AuthService {
   async login(email: string, password: string): Promise<User> {
     try {
       // Buscar usuario por email
-      const user = await this.databaseService.getUserByEmail(email);
+      const user = await this.userService.getUserByEmail(email);
 
       if (!user) {
         throw new Error('Usuario no encontrado');
@@ -208,7 +217,7 @@ export class AuthService {
       throw new Error('Usuario no autenticado');
     }
 
-    await this.databaseService.updateUserIncome(user.id, income);
+    await this.userService.updateUserIncome(user.id, income);
 
     // Actualizar el usuario en el estado
     user.monthlyIncome = income;

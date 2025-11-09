@@ -49,15 +49,20 @@
 /* Card styles */
 .ios-card {
   background: white;
-  border-radius: 16px;
+  border-radius: 1rem;
   padding: 16px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 12px;
 }
 
+.dark .ios-card,
+:root[class*="dark"] .ios-card {
+  background: #1C1C1E;
+}
+
 /* Button styles */
 .ios-button {
-  --border-radius: 12px;
+  --border-radius: 1rem;
   --box-shadow: none;
   font-weight: 600;
   text-transform: none;
@@ -66,7 +71,7 @@
 }
 
 .ios-button-large {
-  --border-radius: 14px;
+  --border-radius: 1rem;
   font-size: 17px;
   font-weight: 600;
   height: 56px;
@@ -75,15 +80,50 @@
 /* Input styles */
 .ios-input {
   --background: #F2F2F7;
-  --border-radius: 12px;
+  --border-radius: 1rem;
   --padding-start: 16px;
   --padding-end: 16px;
   font-size: 17px;
+  --color: #000000;
+}
+
+/* Input dark mode */
+.dark .ios-input,
+:root[class*="dark"] .ios-input {
+  --color: #ffffff;
+  --background: #1C1C1E;
+}
+
+/* Input Ionic components */
+ion-input {
+  --border-radius: 1rem;
+}
+
+ion-input:not(.dark) {
+  --color: #000000;
+}
+
+.dark ion-input,
+:root[class*="dark"] ion-input {
+  --color: #ffffff;
+}
+
+ion-textarea {
+  --border-radius: 1rem;
+}
+
+ion-textarea:not(.dark) {
+  --color: #000000;
+}
+
+.dark ion-textarea,
+:root[class*="dark"] ion-textarea {
+  --color: #ffffff;
 }
 
 /* Modal styles */
 ion-modal.bottom-sheet {
-  --border-radius: 20px 20px 0 0;
+  --border-radius: 2rem 2rem 0 0;
   --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
 
   &::part(backdrop) {
@@ -91,10 +131,14 @@ ion-modal.bottom-sheet {
   }
 }
 
+ion-modal {
+  --border-radius: 1rem;
+}
+
 .modal-handle {
   width: 36px;
   height: 5px;
-  border-radius: 3px;
+  border-radius: 9999px;
   background: #C7C7CC;
   margin: 12px auto 20px;
 }
