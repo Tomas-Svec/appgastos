@@ -1,0 +1,78 @@
+// Estilos iOS para tab bar
+.ios-tab-bar {
+  --background: var(--ion-background-color, #ffffff);
+  --border: 0.5px solid var(--ion-color-step-150, #d7d8da);
+
+  height: 50px;
+  border-top: 0.5px solid var(--ion-color-step-150, #d7d8da);
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+
+  // Backdrop blur para efecto iOS
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ios-tab-button {
+  --color: var(--ion-color-medium, #92949c);
+  --color-selected: var(--ion-color-primary, #3880ff);
+
+  // Estilos para el icono (usando CSS variables que penetran Shadow DOM)
+  ion-icon {
+    font-size: 24px;
+    margin-bottom: 2px;
+    transition: transform 0.2s ease-in-out;
+  }
+
+  // Estilos para el label
+  ion-label {
+    font-size: 10px;
+    font-weight: 500;
+    margin-top: 2px;
+    transition: font-weight 0.2s ease-in-out;
+  }
+
+  // Estado seleccionado
+  &.tab-selected {
+    ion-icon {
+      transform: scale(1.1);
+    }
+
+    ion-label {
+      font-weight: 600;
+    }
+  }
+
+  // Efecto hover (para web)
+  @media (hover: hover) {
+    &:hover {
+      --color: var(--ion-color-primary-shade, #3171e0);
+
+      ion-icon {
+        transform: scale(1.05);
+      }
+    }
+  }
+
+  // Active state con feedback tactil
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+// Safe area para dispositivos con notch
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  .ios-tab-bar {
+    padding-bottom: env(safe-area-inset-bottom);
+    height: calc(50px + env(safe-area-inset-bottom));
+  }
+}
+
+// Dark mode
+@media (prefers-color-scheme: dark) {
+  .ios-tab-bar {
+    --background: var(--ion-background-color, #000000);
+    --border: 0.5px solid var(--ion-color-step-250, #404040);
+
+    border-top-color: var(--ion-color-step-250, #404040);
+  }
+}

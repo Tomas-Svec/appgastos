@@ -22,13 +22,40 @@
         </ion-item>
       </label>
 
+      <label class="input-label">
+        <p class="label-text">Contraseña</p>
+        <ion-item lines="none" class="ios-input">
+          <ion-input
+            [(ngModel)]="password"
+            type="password"
+            placeholder="Introduce tu contraseña"
+            autocomplete="current-password">
+          </ion-input>
+        </ion-item>
+      </label>
+
+      <!-- Login Button -->
+      <ion-button
+        expand="block"
+        class="ios-button-large primary-button"
+        (click)="login()">
+        Iniciar Sesión
+      </ion-button>
+
+      <!-- Divider -->
+      <div class="divider-section">
+        <div class="divider-line"></div>
+        <span class="divider-text">O continúa con</span>
+        <div class="divider-line"></div>
+      </div>
+
       <!-- Face ID / Touch ID Button -->
       <ion-button
         expand="block"
         class="ios-button-large biometric-button"
         (click)="loginWithBiometric()">
         <ion-icon slot="start" name="finger-print-outline"></ion-icon>
-        Iniciar Sesión con Face ID
+        Face ID / Touch ID
       </ion-button>
 
       <!-- Alternative Login -->

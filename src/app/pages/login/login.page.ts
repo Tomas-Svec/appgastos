@@ -15,6 +15,7 @@ import { NativeBiometric } from 'capacitor-native-biometric';
 })
 export class LoginPage implements OnInit {
   email: string = '';
+  password: string = '';
 
   constructor(
     private router: Router,
@@ -29,7 +30,7 @@ export class LoginPage implements OnInit {
 
     // Verificar si el usuario ya está autenticado
     if (this.authService.isAuthenticated()) {
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/tabs/dashboard']);
     }
 
     this.checkBiometricAvailability();
@@ -45,7 +46,44 @@ export class LoginPage implements OnInit {
     }
   }
 
+  async login() {
+    // Validar campos
+    if (!this.email.trim()) {
+      await this.showAlert('Error', 'Por favor ingresa tu email o usuario');
+      return;
+    }
+
+    if (!this.password.trim()) {
+      await this.showAlert('Error', 'Por favor ingresa tu contraseña');
+      return;
+    }
+
+    await this.performLogin(async () => {
+      return await this.authService.login(this.email, this.password);
+    }, 'Credenciales incorrectas');
+  }
+
   async loginWithBiometric() {
+    await this.performLogin(async () => {
+      return await this.authService.loginWithBiometric();
+    }, 'Error al autenticar con biometría', (error) => {
+      // Manejo especial para credenciales no guardadas
+      if (error.message?.includes('No hay credenciales guardadas')) {
+        return {
+          header: 'Sin credenciales',
+          message: 'Debes crear una cuenta o iniciar sesión primero para usar autenticación biométrica'
+        };
+      }
+      return null;
+    });
+  }
+
+  // Método reutilizable para realizar login
+  private async performLogin(
+    loginFn: () => Promise<any>,
+    defaultErrorMessage: string,
+    customErrorHandler?: (error: any) => { header: string; message: string } | null
+  ) {
     const loading = await this.loadingController.create({
       message: 'Autenticando...'
     });
@@ -53,25 +91,29 @@ export class LoginPage implements OnInit {
     await loading.present();
 
     try {
-      const user = await this.authService.loginWithBiometric();
+      const user = await loginFn();
       await loading.dismiss();
 
       if (user) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/tabs/dashboard']);
+      } else {
+        await this.showAlert('Error', defaultErrorMessage);
       }
     } catch (error: any) {
       await loading.dismiss();
+      console.error('Login error:', error);
 
-      // Si no hay credenciales guardadas, mostrar mensaje
-      if (error.message?.includes('No hay credenciales guardadas')) {
-        await this.showAlert(
-          'Sin credenciales',
-          'Debes crear una cuenta o iniciar sesión primero para usar autenticación biométrica'
-        );
-      } else {
-        console.log('Biometric authentication error:', error);
-        await this.showAlert('Error', 'Error al autenticar con biometría');
+      // Intentar manejador personalizado de errores
+      if (customErrorHandler) {
+        const customError = customErrorHandler(error);
+        if (customError) {
+          await this.showAlert(customError.header, customError.message);
+          return;
+        }
       }
+
+      // Manejador de error por defecto
+      await this.showAlert('Error', error.message || defaultErrorMessage);
     }
   }
 

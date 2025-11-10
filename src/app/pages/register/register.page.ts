@@ -59,7 +59,7 @@ export class RegisterPage implements OnInit {
         'Cuenta creada',
         'Tu cuenta ha sido creada exitosamente',
         () => {
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/tabs/dashboard']);
         }
       );
     } catch (error: any) {
