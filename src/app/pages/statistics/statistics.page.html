@@ -1,0 +1,129 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="header-title">Estadísticas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="statistics-content">
+    <!-- Segmented Buttons -->
+    <div class="period-selector-wrapper">
+      <div class="period-selector">
+        <button
+          class="period-button"
+          [class.active]="selectedPeriod() === 'week'"
+          (click)="onPeriodChange('week')"
+          aria-label="Filtrar por semana">
+          Semana
+        </button>
+        <button
+          class="period-button"
+          [class.active]="selectedPeriod() === 'month'"
+          (click)="onPeriodChange('month')"
+          aria-label="Filtrar por mes">
+          Mes
+        </button>
+        <button
+          class="period-button"
+          [class.active]="selectedPeriod() === 'year'"
+          (click)="onPeriodChange('year')"
+          aria-label="Filtrar por año">
+          Año
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+      <div class="ios-card stat-card">
+        <p class="stat-label">Gasto Promedio Diario</p>
+        <p class="stat-amount">{{ formatCurrency(averageDailyExpense()) }}</p>
+        <p class="stat-period">En el último {{ selectedPeriod() === 'week' ? 'semana' : selectedPeriod() === 'month' ? 'mes' : 'año' }}</p>
+      </div>
+
+      <div class="ios-card stat-card" *ngIf="topCategory()">
+        <p class="stat-label">Categoría de Mayor Gasto</p>
+        <div class="category-display">
+          <div class="category-icon-wrapper" [ngClass]="topCategory()!.iconClass">
+            <ion-icon [name]="topCategory()!.icon"></ion-icon>
+          </div>
+          <p class="category-name">{{ topCategory()!.name }}</p>
+        </div>
+        <p class="category-amount">{{ formatCurrency(topCategory()!.amount) }}</p>
+      </div>
+    </div>
+
+    <!-- Chart Card -->
+    <div class="ios-card chart-card">
+      <p class="chart-title">Evolución de Gastos</p>
+      <p class="chart-total">{{ formatCurrency(totalExpenses()) }}</p>
+
+      <div class="chart-wrapper">
+        <svg class="chart-svg" viewBox="-3 0 478 150" preserveAspectRatio="none">
+          <!-- Area fill -->
+          <defs>
+            <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#007AFF" stop-opacity="0.2" />
+              <stop offset="100%" stop-color="#007AFF" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+          <path
+            *ngIf="getChartAreaPath()"
+            [attr.d]="getChartAreaPath()"
+            fill="url(#chartGradient)"
+          />
+          <!-- Line -->
+          <path
+            *ngIf="getChartPath()"
+            [attr.d]="getChartPath()"
+            stroke="#007AFF"
+            stroke-width="3"
+            stroke-linecap="round"
+            fill="none"
+          />
+        </svg>
+
+        <div class="chart-labels">
+          <span *ngFor="let label of getChartLabels()" class="chart-label">{{ label }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Stats Section -->
+    <h2 class="section-title-standalone">Gastos por Categoría</h2>
+
+    <!-- Empty State -->
+    <div *ngIf="categoryStats().length === 0 && !isLoading()" class="empty-state">
+      <ion-icon name="stats-chart-outline"></ion-icon>
+      <p>No hay datos para mostrar</p>
+      <p class="empty-subtitle">Agrega gastos para ver tus estadísticas</p>
+    </div>
+
+    <!-- Category List -->
+    <div *ngIf="categoryStats().length > 0" class="ios-card categories-card">
+      <div class="category-item" *ngFor="let category of categoryStats()">
+        <div class="category-icon-wrapper" [ngClass]="category.iconClass">
+          <ion-icon [name]="category.icon"></ion-icon>
+        </div>
+        <div class="category-details">
+          <div class="category-header">
+            <span class="category-name">{{ category.name }}</span>
+            <span class="category-amount">{{ formatCurrency(category.amount) }}</span>
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress-fill"
+              [ngClass]="category.progressClass"
+              [style.width.%]="category.percentage">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading()" class="loading-state">
+      <ion-spinner name="circular" color="primary"></ion-spinner>
+    </div>
+  </div>
+</ion-content>

@@ -193,4 +193,30 @@ export class ExpenseService {
       throw error;
     }
   }
+
+  async deleteAllExpensesByUser(userId: number): Promise<void> {
+    await this.databaseService.ensureInitialized();
+
+    // Web implementation
+    if (this.databaseService.isWeb) {
+      const expenses: Expense[] = JSON.parse(localStorage.getItem('expenses') || '[]');
+      const filteredExpenses = expenses.filter(e => e.userId !== userId);
+      localStorage.setItem('expenses', JSON.stringify(filteredExpenses));
+      console.log('All user expenses deleted');
+      return;
+    }
+
+    // Native SQLite implementation
+    const query = `
+      DELETE FROM expenses WHERE userId = ?;
+    `;
+
+    try {
+      await this.databaseService.run(query, [userId]);
+      console.log('All user expenses deleted');
+    } catch (error) {
+      console.error('Error deleting all expenses:', error);
+      throw error;
+    }
+  }
 }

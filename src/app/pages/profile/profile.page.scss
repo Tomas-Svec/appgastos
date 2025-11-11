@@ -1,0 +1,263 @@
+ion-header {
+  &.ion-no-border {
+    ion-toolbar {
+      --border-width: 0;
+    }
+  }
+}
+
+.header-toolbar {
+  --background: rgba(246, 247, 248, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  --padding-top: 8px;
+
+  .header-title {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #1C1C1E;
+    text-align: center;
+  }
+}
+
+ion-content {
+  --background: #f6f7f8;
+}
+
+.profile-content {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+// Profile Header Card
+.profile-header-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 24px !important;
+  margin-bottom: 24px;
+
+  .profile-avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .profile-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    .avatar-bg {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+  }
+
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    .profile-name {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1C1C1E;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+
+    .profile-email {
+      font-size: 16px;
+      color: #8A8A8E;
+      margin: 0;
+    }
+  }
+}
+
+// Section
+.section {
+  margin-bottom: 24px;
+
+  .section-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0 12px 4px;
+    color: #1C1C1E;
+    letter-spacing: -0.5px;
+  }
+}
+
+// Settings Card
+.settings-card {
+  padding: 0 !important;
+  overflow: hidden;
+
+  .setting-item {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    gap: 12px;
+    background: transparent;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    .setting-icon-wrapper {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      ion-icon {
+        font-size: 18px;
+        color: white;
+      }
+
+      &.icon-blue {
+        background: rgba(0, 122, 255, 0.15);
+
+        ion-icon {
+          color: #007AFF;
+        }
+      }
+
+      &.icon-red {
+        background: rgba(255, 59, 48, 0.15);
+
+        ion-icon {
+          color: #FF3B30;
+        }
+      }
+    }
+
+    .setting-label {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 500;
+      color: #1C1C1E;
+
+      &.danger-text {
+        color: #FF3B30;
+      }
+    }
+
+    ion-toggle {
+      --background: #E5E5EA;
+      --background-checked: #34C759;
+      --handle-background: #FFFFFF;
+      --handle-background-checked: #FFFFFF;
+    }
+
+    .chevron-icon {
+      font-size: 20px;
+      color: #8A8A8E;
+    }
+
+    &.setting-button:active {
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+
+  .setting-divider {
+    height: 1px;
+    background: #E5E5EA;
+    margin-left: 60px;
+  }
+}
+
+// Logout Section
+.logout-section {
+  margin-top: 24px;
+
+  .logout-button {
+    width: 100%;
+    padding: 16px;
+    background: #FFFFFF;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    color: #FF3B30;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+}
+
+// Dark Mode Support
+.dark {
+  .header-toolbar {
+    --background: rgba(28, 28, 30, 0.8);
+
+    .header-title {
+      color: #FFFFFF;
+    }
+  }
+
+  ion-content {
+    --background: #121d20;
+  }
+
+  .ios-card {
+    background: #1C1C1E;
+
+    .profile-name {
+      color: #FFFFFF;
+    }
+
+    .profile-email {
+      color: #8E8E93;
+    }
+  }
+
+  .section-title {
+    color: #FFFFFF;
+  }
+
+  .settings-card {
+    .setting-item {
+      .setting-label {
+        color: #FFFFFF;
+
+        &.danger-text {
+          color: #FF453A;
+        }
+      }
+
+      .chevron-icon {
+        color: #8E8E93;
+      }
+
+      &.setting-button:active {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+
+    .setting-divider {
+      background: #38383A;
+    }
+  }
+
+  .logout-button {
+    background: #1C1C1E;
+    color: #FF453A;
+  }
+}

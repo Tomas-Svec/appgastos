@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { IonicModule, ModalController, AlertController } from '@ionic/angular';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
+import { Subscription } from 'rxjs';
 import { AddExpenseComponent } from '../../modals/add-expense/add-expense.component';
 import { AddIncomeComponent } from '../../modals/add-income/add-income.component';
 import { ExpenseService } from '../../services/expense.service';
 import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 import { Expense } from '../../models';
 
 interface Installment {
@@ -26,7 +29,7 @@ interface Installment {
   standalone: true,
   imports: [CommonModule, FormsModule, IonicModule]
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements OnInit, OnDestroy {
   monthlyIncome: number = 0;
   monthlyExpenses: number = 0;
   balance: number = 0;
@@ -38,14 +41,21 @@ export class DashboardPage implements OnInit {
   isLoading: boolean = false;
   currentUserId: number | null = null;
 
+  private themeSubscription?: Subscription;
+
   constructor(
     private modalController: ModalController,
     private expenseService: ExpenseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private themeService: ThemeService,
+    private alertController: AlertController
   ) { }
 
   async ngOnInit() {
     this.setCurrentMonth();
+
+    // Suscribirse a cambios de tema
+    this.themeSubscription = this.themeService.darkMode$.subscribe();
 
     // Obtener usuario autenticado
     const currentUser = this.authService.currentUserValue;
@@ -53,6 +63,12 @@ export class DashboardPage implements OnInit {
       this.currentUserId = currentUser.id;
       this.monthlyIncome = currentUser.monthlyIncome || 0;
       await this.loadExpenses();
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.themeSubscription) {
+      this.themeSubscription.unsubscribe();
     }
   }
 
@@ -130,10 +146,9 @@ export class DashboardPage implements OnInit {
   }
 
   formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
+    return '$' + new Intl.NumberFormat('es-CO', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount);
   }
 
@@ -311,5 +326,69 @@ export class DashboardPage implements OnInit {
         return dateB - dateA;
       })
       .slice(0, limit);
+  }
+
+  async deleteInstallment(installment: Installment, slidingItem: any) {
+    // Feedback háptico ligero al iniciar swipe
+    try {
+      await Haptics.impact({ style: ImpactStyle.Light });
+    } catch (error) {
+      console.log('Haptics not available on this platform');
+    }
+
+    // Alert de confirmación estilo iOS
+    const alert = await this.alertController.create({
+      header: 'Eliminar Cuota',
+      message: `¿Estás seguro de que deseas eliminar "${installment.name}"? Esta acción no se puede deshacer.`,
+      cssClass: 'ios-alert',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: () => {
+            // Cerrar el sliding item
+            slidingItem.close();
+          }
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+            try {
+              // Feedback háptico más fuerte al confirmar eliminación
+              await Haptics.impact({ style: ImpactStyle.Medium });
+            } catch (error) {
+              console.log('Haptics not available');
+            }
+
+            // Eliminar el gasto de la base de datos
+            try {
+              await this.expenseService.deleteExpense(Number(installment.id));
+
+              // Cerrar el sliding item con animación
+              await slidingItem.close();
+
+              // Recargar los datos
+              await this.loadExpenses();
+
+              console.log('Cuota eliminada exitosamente');
+            } catch (error) {
+              console.error('Error al eliminar cuota:', error);
+
+              // Mostrar error al usuario
+              const errorAlert = await this.alertController.create({
+                header: 'Error',
+                message: 'No se pudo eliminar la cuota. Por favor, intenta nuevamente.',
+                cssClass: 'ios-alert',
+                buttons: ['OK']
+              });
+              await errorAlert.present();
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 }

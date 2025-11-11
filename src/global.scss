@@ -38,8 +38,8 @@
  */
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+@import "@ionic/angular/css/palettes/dark.class.css";
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
 
 /* Custom iOS Styles */
 * {
@@ -149,4 +149,96 @@ ion-modal {
   --box-shadow: 0 4px 12px rgba(0, 122, 255, 0.4);
   width: 56px;
   height: 56px;
+}
+
+/* iOS Alert Styles */
+.ios-alert {
+  --backdrop-opacity: 0.4;
+  --max-width: 270px;
+
+  .alert-wrapper {
+    border-radius: 14px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.24);
+  }
+
+  .alert-head {
+    padding: 16px 16px 8px;
+    text-align: center;
+  }
+
+  .alert-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #000000;
+    text-align: center;
+  }
+
+  .alert-message {
+    font-size: 13px;
+    color: #000000;
+    text-align: center;
+    padding: 0 16px 16px;
+    line-height: 1.4;
+  }
+
+  .alert-button-group {
+    flex-direction: column;
+    border-top: 0.55px solid rgba(60, 60, 67, 0.29);
+  }
+
+  .alert-button {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #007AFF;
+    font-size: 17px;
+    font-weight: 400;
+    height: 44px;
+    min-height: 44px;
+    border-bottom: 0.55px solid rgba(60, 60, 67, 0.29);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.alert-button-role-cancel {
+      font-weight: 600;
+    }
+
+    &.alert-button-role-destructive {
+      color: #FF3B30;
+      font-weight: 400;
+    }
+  }
+}
+
+/* Dark mode for iOS Alert */
+.dark .ios-alert,
+:root[class*="dark"] .ios-alert {
+  .alert-wrapper {
+    background: rgba(28, 28, 30, 0.95);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+  }
+
+  .alert-title {
+    color: #FFFFFF;
+  }
+
+  .alert-message {
+    color: rgba(235, 235, 245, 0.6);
+  }
+
+  .alert-button-group {
+    border-top: 0.55px solid rgba(84, 84, 88, 0.65);
+  }
+
+  .alert-button {
+    border-bottom: 0.55px solid rgba(84, 84, 88, 0.65);
+    color: #0A84FF;
+
+    &.alert-button-role-destructive {
+      color: #FF453A;
+    }
+  }
 }

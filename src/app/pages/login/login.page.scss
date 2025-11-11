@@ -144,3 +144,52 @@ ion-content {
     }
   }
 }
+
+// Dark Mode Support
+.dark {
+  ion-content {
+    --background: #121d20;
+  }
+
+  .logo-section {
+    .icon-circle {
+      background: #1C1C1E;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      color: #FFFFFF;
+    }
+  }
+
+  .form-section {
+    .label-text {
+      color: #FFFFFF;
+    }
+
+    ion-item {
+      --background: #1C1C1E;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+      ion-input {
+        --color: #FFFFFF;
+        --placeholder-color: #8E8E93;
+      }
+    }
+
+    .divider-line {
+      background: #38383A;
+    }
+
+    .divider-text {
+      color: #8E8E93;
+    }
+
+    .biometric-button {
+      --background: #1C1C1E;
+      --color: #FFFFFF;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      border: 1px solid #38383A;
+    }
+  }
+}

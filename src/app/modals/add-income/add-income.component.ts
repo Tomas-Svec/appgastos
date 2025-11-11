@@ -12,7 +12,7 @@ import { AuthService } from '../../services/auth.service';
   imports: [CommonModule, FormsModule, IonicModule]
 })
 export class AddIncomeComponent implements OnInit {
-  monthlyIncome: number = 0;
+  monthlyIncome: number | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
 
@@ -38,7 +38,7 @@ export class AddIncomeComponent implements OnInit {
     this.errorMessage = '';
 
     // Validación
-    if (this.monthlyIncome <= 0) {
+    if (!this.monthlyIncome || this.monthlyIncome <= 0) {
       this.errorMessage = 'Por favor ingresa un monto válido mayor a 0';
       await this.showToast('Monto inválido', 'warning');
       return;
@@ -54,7 +54,7 @@ export class AddIncomeComponent implements OnInit {
 
     try {
       // Actualizar el ingreso mensual del usuario
-      await this.authService.updateMonthlyIncome(this.monthlyIncome);
+      await this.authService.updateMonthlyIncome(this.monthlyIncome!);
 
       await this.showToast('Ingreso guardado correctamente', 'success');
 
@@ -88,5 +88,12 @@ export class AddIncomeComponent implements OnInit {
       currency: 'USD',
       minimumFractionDigits: 2
     }).format(amount);
+  }
+
+  onIncomeFocus() {
+    // Limpiar el campo si está en null o 0
+    if (!this.monthlyIncome || this.monthlyIncome === 0) {
+      this.monthlyIncome = null;
+    }
   }
 }

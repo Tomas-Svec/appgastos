@@ -68,11 +68,11 @@
 }
 
 // Dark mode
-@media (prefers-color-scheme: dark) {
+.dark {
   .ios-tab-bar {
-    --background: var(--ion-background-color, #000000);
-    --border: 0.5px solid var(--ion-color-step-250, #404040);
+    --background: rgba(28, 28, 30, 0.8);
+    --border: 0.5px solid #38383A;
 
-    border-top-color: var(--ion-color-step-250, #404040);
+    border-top-color: #38383A;
   }
 }

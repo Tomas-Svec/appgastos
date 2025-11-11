@@ -31,7 +31,7 @@
         <div class="card-percentage negative-percentage">-1.8%</div>
       </div>
 
-      <div class="ios-card installments-card" (click)="openIncomeModal()">
+      <div class="ios-card installments-card">
         <span class="card-title">Cuotas pendientes</span>
         <div class="card-amount large-amount">{{ activeInstallments }}</div>
       </div>
@@ -79,25 +79,35 @@
         <p>No tienes cuotas activas</p>
       </div>
 
-      <div *ngFor="let installment of installments" class="ios-card installment-item">
-        <div class="installment-header">
-          <div class="installment-icon-wrapper" [ngClass]="installment.iconClass">
-            <ion-icon [name]="installment.icon"></ion-icon>
-          </div>
-          <div class="installment-info">
-            <div class="installment-top">
-              <div class="installment-name">{{ installment.name }}</div>
-              <div class="installment-amount">{{ formatCurrency(installment.monthlyAmount) }}</div>
+      <ion-item-sliding *ngFor="let installment of installments" #slidingItem>
+        <ion-item lines="none" class="installment-sliding-item">
+          <div class="ios-card installment-item">
+            <div class="installment-header">
+              <div class="installment-icon-wrapper" [ngClass]="installment.iconClass">
+                <ion-icon [name]="installment.icon"></ion-icon>
+              </div>
+              <div class="installment-info">
+                <div class="installment-top">
+                  <div class="installment-name">{{ installment.name }}</div>
+                  <div class="installment-amount">{{ formatCurrency(installment.monthlyAmount) }}</div>
+                </div>
+                <div class="installment-progress-text">
+                  {{ installment.paid }} de {{ installment.total }} cuotas
+                </div>
+              </div>
             </div>
-            <div class="installment-progress-text">
-              {{ installment.paid }} de {{ installment.total }} cuotas
+            <div class="progress-bar">
+              <div class="progress-fill" [ngClass]="installment.progressClass" [style.width]="getProgressPercentage(installment) + '%'"></div>
             </div>
           </div>
-        </div>
-        <div class="progress-bar">
-          <div class="progress-fill" [ngClass]="installment.progressClass" [style.width]="getProgressPercentage(installment) + '%'"></div>
-        </div>
-      </div>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="deleteInstallment(installment, slidingItem)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
     </div>
 
     <!-- Historial de Gastos -->

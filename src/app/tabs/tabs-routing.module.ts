@@ -18,11 +18,11 @@ const routes: Routes = [
       },
       {
         path: 'stats',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../pages/statistics/statistics.module').then(m => m.StatisticsPageModule)
       },
       {
         path: 'profile',
-        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+        loadChildren: () => import('../pages/profile/profile.module').then(m => m.ProfilePageModule)
       },
       {
         path: '',

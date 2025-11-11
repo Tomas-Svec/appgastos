@@ -186,3 +186,54 @@ ion-content {
     }
   }
 }
+
+// Dark Mode Support
+.dark {
+  ion-content {
+    &.income-content {
+      --background: #121d20;
+    }
+  }
+
+  .modal-title {
+    color: #FFFFFF;
+  }
+
+  .modal-subtitle {
+    color: #8E8E93;
+  }
+
+  .amount-input-wrapper {
+    background: #1C1C1E;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    .currency-symbol {
+      color: #8E8E93;
+    }
+
+    .large-amount-input {
+      --color: #0A84FF;
+
+      &::placeholder {
+        color: #38383A;
+      }
+    }
+  }
+
+  .current-income-info {
+    background: #1C1C1E;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    .info-label {
+      color: #8E8E93;
+    }
+
+    .info-value {
+      color: #0A84FF;
+    }
+  }
+
+  .helper-text {
+    color: #8E8E93;
+  }
+}

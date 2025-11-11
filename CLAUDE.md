@@ -106,6 +106,13 @@ src/app/
 - **Scoped Styles**: Solo cuando Tailwind no sea suficiente
 - **Accesibilidad**: Siempre incluir labels ARIA
 
+### Gestures e Interacciones iOS
+- **ion-item-sliding**: Para swipe actions (delete, edit, archive)
+- **Haptics**: Feedback táctil en acciones críticas (Haptics.impact())
+- **Pull-to-refresh**: ion-refresher para actualizar datos
+- **Infinite scroll**: ion-infinite-scroll para listas grandes
+- **Transitions**: Animaciones suaves con CSS transforms (300ms ease-out)
+
 ### Base de Datos
 - **Queries**: Usar placeholders `?` para prevenir SQL injection
 - **Transacciones**: Wrap múltiples operaciones cuando sea necesario
@@ -368,25 +375,48 @@ npx cap open ios                    # Abrir Xcode
 ## Estado Actual del Proyecto
 
 ### ✅ Implementado
-- Autenticación con email/password
-- Registro de usuarios
-- Dashboard con métricas básicas
-- Base de datos dual-mode (SQLite + localStorage)
-- Servicios core (auth, database, user, expense, category, audit)
-- Modelos de datos principales
+- **Autenticación completa**:
+  - Login con email/password
+  - Registro de usuarios con validación
+  - Manejo de sesiones con AuthService
+- **Dashboard funcional**:
+  - Cards de resumen (ingresos, gastos, cuotas pendientes)
+  - Gráfico circular de balance mensual (SVG donut chart)
+  - Visualización de cuotas activas con progress bars
+  - Historial de gastos recientes
+  - Modales bottom-sheet para agregar income/expense
+- **Gestión de gastos**:
+  - CRUD completo de gastos con ExpenseService
+  - Soporte para gastos con/sin cuotas
+  - Categorías predefinidas con iconos e íconos de color
+  - Cálculo automático de gastos mensuales
+- **Base de datos dual-mode**:
+  - SQLite para plataformas nativas
+  - localStorage para web
+  - Migraciones automáticas con versionado
+- **Servicios core**:
+  - AuthService (autenticación + sesiones)
+  - DatabaseService (dual-mode SQLite/localStorage)
+  - UserService (CRUD usuarios)
+  - ExpenseService (CRUD gastos + cuotas)
+  - CategoryService (gestión categorías)
+  - AuditService (trazabilidad)
 
 ### 🚧 En Desarrollo
-- Login page (cambios recientes en progreso)
-- Gestión de gastos con cuotas
-- Visualización de gráficos con Chart.js
-- Biometría para login rápido
+- **Interacciones iOS-native**:
+  - Swipe-to-delete para cuotas pendientes
+  - Feedback háptico en acciones críticas
+- **Biometría**: Login rápido con Face ID/Touch ID
+- **Visualización avanzada**: Gráficos detallados con Chart.js
+- **Notificaciones**: Recordatorios de cuotas por vencer
 
 ### 📋 Roadmap
 - Exportación de reportes (PDF/Excel)
-- Categorías personalizadas con iconos
-- Presupuestos por categoría
-- Notificaciones de cuotas pendientes
-- Sincronización en la nube (opcional)
+- Categorías personalizadas con iconos/colores custom
+- Presupuestos por categoría con alertas
+- Recurrencia automática de gastos fijos
+- Widget nativo (iOS/Android)
+- Sincronización en la nube opcional (Firebase/Supabase)
 
 ---
 

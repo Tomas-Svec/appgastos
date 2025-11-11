@@ -60,6 +60,7 @@
             type="number"
             placeholder="0.00"
             inputmode="decimal"
+            (ionFocus)="onAmountFocus()"
             [disabled]="isLoading">
             <span slot="start">$</span>
           </ion-input>
@@ -147,6 +148,7 @@
               type="number"
               placeholder="Ej: 12"
               inputmode="numeric"
+              (ionFocus)="onInstallmentsFocus()"
               [disabled]="isLoading">
             </ion-input>
           </ion-item>
@@ -172,7 +174,7 @@
         expand="block"
         class="ios-button-large save-button"
         (click)="saveExpense()"
-        [disabled]="isLoading || !expense.description || expense.amount <= 0">
+        [disabled]="isLoading || !expense.description || !expense.amount || expense.amount <= 0">
         <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
         <span *ngIf="!isLoading">Guardar Gasto</span>
         <span *ngIf="isLoading">Guardando...</span>

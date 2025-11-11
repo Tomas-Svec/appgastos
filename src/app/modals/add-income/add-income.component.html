@@ -25,12 +25,13 @@
         class="large-amount-input"
         placeholder="0.00"
         inputmode="decimal"
+        (ionFocus)="onIncomeFocus()"
         [disabled]="isLoading">
       </ion-input>
     </div>
 
     <!-- Current Income Display -->
-    <div class="current-income-info">
+    <div class="current-income-info" *ngIf="monthlyIncome">
       <p class="info-label">Presupuesto actual:</p>
       <p class="info-value">{{ formatCurrency(monthlyIncome) }}</p>
     </div>
@@ -46,7 +47,7 @@
         expand="block"
         class="ios-button-large save-button"
         (click)="saveIncome()"
-        [disabled]="isLoading || monthlyIncome <= 0">
+        [disabled]="isLoading || !monthlyIncome || monthlyIncome <= 0">
         <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
         <span *ngIf="!isLoading">Guardar Presupuesto</span>
         <span *ngIf="isLoading">Guardando...</span>

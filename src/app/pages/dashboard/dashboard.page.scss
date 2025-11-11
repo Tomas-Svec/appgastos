@@ -11,7 +11,6 @@ ion-header {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   --padding-top: 8px;
-  --padding-bottom: 8px;
 
   .header-title {
     font-size: 30px;
@@ -26,7 +25,7 @@ ion-header {
     --padding-end: 12px;
     margin-right: 12px;
     border: none;
-    background: #f6f7f8;
+    //background: #f6f7f8;
     cursor: pointer;
 
     .add-button-text {
@@ -295,12 +294,59 @@ ion-content {
     }
   }
 
-  .installment-item {
+  // Ion Item Sliding Styles
+  ion-item-sliding {
     margin-bottom: 8px;
+    border-radius: 12px;
+    overflow: visible;
+    display: block;
+
+    .installment-sliding-item {
+      --background: transparent;
+      --padding-start: 0;
+      --padding-end: 0;
+      --inner-padding-end: 0;
+      --border-width: 0;
+      --min-height: auto;
+      height: 100%;
+    }
+
+    ion-item-options {
+      border-radius: 0 12px 12px 0;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+
+      ion-item-option {
+        --background: #FF3B30;
+        --color: white;
+        border-radius: 0 12px 12px 0;
+        transition: all 0.3s ease;
+        height: 88%;
+        padding: 0 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        ion-icon {
+          font-size: 28px;
+          margin: 0;
+        }
+
+        &:active {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+
+  .installment-item {
+    width: 100%;
     padding: 16px;
     border-radius: 12px;
     background: #FFFFFF;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
 
     .installment-header {
       display: flex;
@@ -564,6 +610,20 @@ ion-content {
 
 // Dark Mode Support
 .dark {
+  .header-toolbar {
+    --background: rgba(28, 28, 30, 0.8);
+
+    .header-title {
+      color: #FFFFFF;
+    }
+
+    .header-add-button {
+      .add-button-text {
+        color: #0A84FF;
+      }
+    }
+  }
+
   ion-content {
     --background: #121d20;
   }

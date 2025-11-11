@@ -1,0 +1,432 @@
+ion-header {
+  &.ion-no-border {
+    ion-toolbar {
+      --border-width: 0;
+    }
+  }
+}
+
+.header-toolbar {
+  --background: rgba(246, 247, 248, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+
+  .header-title {
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #1C1C1E;
+  }
+}
+
+ion-content {
+  --background: #f6f7f8;
+}
+
+.statistics-content {
+  padding: 16px;
+  padding-bottom: 100px;
+}
+
+// Period Selector
+.period-selector-wrapper {
+  margin-bottom: 16px;
+}
+
+.period-selector {
+  display: flex;
+  height: 40px;
+  background: #E5E5EA;
+  border-radius: 10px;
+  padding: 2px;
+  gap: 2px;
+
+  .period-button {
+    flex: 1;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #8A8A8E;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: inherit;
+
+    &.active {
+      background: #FFFFFF;
+      color: #007AFF;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active:not(.active) {
+      opacity: 0.7;
+    }
+  }
+}
+
+// Stats Cards
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .stat-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #8A8A8E;
+    margin: 0;
+  }
+
+  .stat-amount {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1C1C1E;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .stat-period {
+    font-size: 11px;
+    color: #8A8A8E;
+    margin: 0;
+  }
+
+  .category-display {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+
+    .category-icon-wrapper {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      ion-icon {
+        font-size: 18px;
+      }
+    }
+
+    .category-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1C1C1E;
+      margin: 0;
+    }
+  }
+
+  .category-amount {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1C1C1E;
+    margin: 4px 0 0 0;
+  }
+}
+
+// Chart Card
+.chart-card {
+  padding: 16px;
+  margin-bottom: 24px;
+
+  .chart-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: #8A8A8E;
+    margin: 0 0 4px 0;
+  }
+
+  .chart-total {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1C1C1E;
+    margin: 0 0 16px 0;
+  }
+}
+
+.chart-wrapper {
+  margin-top: 16px;
+
+  .chart-svg {
+    width: 100%;
+    height: 150px;
+    margin-bottom: 8px;
+  }
+
+  .chart-labels {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4px;
+
+    .chart-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #8A8A8E;
+    }
+  }
+}
+
+// Section Title
+.section-title-standalone {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 12px 4px;
+  color: #1C1C1E;
+}
+
+// Categories Card
+.categories-card {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .category-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    ion-icon {
+      font-size: 24px;
+    }
+
+    &.icon-orange {
+      background: rgba(255, 149, 0, 0.15);
+
+      ion-icon {
+        color: #FF9500;
+      }
+    }
+
+    &.icon-purple {
+      background: rgba(175, 82, 222, 0.15);
+
+      ion-icon {
+        color: #AF52DE;
+      }
+    }
+
+    &.icon-blue {
+      background: rgba(94, 121, 255, 0.15);
+
+      ion-icon {
+        color: #22acd0;
+      }
+    }
+
+    &.icon-green {
+      background: rgba(52, 199, 89, 0.15);
+
+      ion-icon {
+        color: #34C759;
+      }
+    }
+
+    &.icon-red {
+      background: rgba(255, 59, 48, 0.15);
+
+      ion-icon {
+        color: #FF3B30;
+      }
+    }
+
+    &.icon-gray {
+      background: rgba(142, 142, 147, 0.15);
+
+      ion-icon {
+        color: #8E8E93;
+      }
+    }
+  }
+
+  .category-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .category-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+
+      .category-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1C1C1E;
+      }
+
+      .category-amount {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1C1C1E;
+      }
+    }
+  }
+}
+
+// Progress Bar
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #E5E5EA;
+  border-radius: 9999px;
+  overflow: hidden;
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.3s ease;
+
+    &.progress-orange {
+      background: #FF9500;
+    }
+
+    &.progress-purple {
+      background: #AF52DE;
+    }
+
+    &.progress-primary {
+      background: #22acd0;
+    }
+
+    &.progress-green {
+      background: #34C759;
+    }
+
+    &.progress-red {
+      background: #FF3B30;
+    }
+
+    &.progress-gray {
+      background: #8E8E93;
+    }
+  }
+}
+
+// Shared Card Styles
+.ios-card {
+  background: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+// Empty State
+.empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8A8A8E;
+
+  ion-icon {
+    font-size: 64px;
+    opacity: 0.5;
+    margin-bottom: 16px;
+  }
+
+  p {
+    font-size: 16px;
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .empty-subtitle {
+    font-size: 14px;
+    margin-top: 8px;
+    opacity: 0.7;
+  }
+}
+
+// Loading State
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+
+  ion-spinner {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+// Dark Mode Support
+.dark {
+  .header-toolbar {
+    --background: rgba(18, 29, 32, 0.8);
+
+    .header-title {
+      color: #FFFFFF;
+    }
+  }
+
+  ion-content {
+    --background: #121d20;
+  }
+
+  .ios-card {
+    background: #1C1C1E;
+  }
+
+  .period-selector {
+    background: #2C2C2E;
+
+    .period-button {
+      color: #8E8E93;
+
+      &.active {
+        background: #007AFF;
+        color: #FFFFFF;
+      }
+    }
+  }
+
+  .stat-label,
+  .stat-period,
+  .chart-title {
+    color: #8E8E93;
+  }
+
+  .stat-amount,
+  .chart-total,
+  .category-name,
+  .category-amount,
+  .section-title-standalone {
+    color: #FFFFFF;
+  }
+
+  .chart-label {
+    color: #8E8E93;
+  }
+
+  .progress-bar {
+    background: #2C2C2E;
+  }
+
+  .empty-state {
+    color: #8E8E93;
+  }
+}

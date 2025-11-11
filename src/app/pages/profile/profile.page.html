@@ -1,0 +1,60 @@
+<ion-header [translucent]="true" class="ion-no-border">
+  <ion-toolbar class="header-toolbar">
+    <ion-title class="header-title">Perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="profile-content">
+    <!-- Profile Header Card -->
+    <div class="ios-card profile-header-card">
+      <div class="profile-avatar-wrapper">
+        <div class="profile-avatar">
+          <div class="avatar-bg" [style.background-image]="'url(https://lh3.googleusercontent.com/aida-public/AB6AXuAmZ_yzO74fSCbCEwsCfTKYkKT5ZCjo-4j7zT67O6Jaoe60ml_LkD0EvRFr_6gD6h5bLzeAyPvNFCuBTfXMEXcTS8nHuo9rJXD06UjFpk7HerOaUSf3OoMKZpspbWyCpNkKu0EmRws44rHCOwex55dD4NBgpMEcVNi4TjI_5WxScI8K3oDbI2row94Hby6wu3VnS-QcBzWGlg7hu-U8Y1QDZqPL3B1xYx6EmbA1eYp3b6uq7HfiTX1Oa-FoGpCxKsKyJBbdomsmhp-O)'"></div>
+        </div>
+      </div>
+      <div class="profile-info">
+        <h2 class="profile-name">{{ getUserDisplayName() }}</h2>
+        <p class="profile-email">{{ currentUser?.email }}</p>
+      </div>
+    </div>
+
+    <!-- Settings Card -->
+    <div class="section">
+      <h3 class="section-title">Configuración</h3>
+      <div class="ios-card settings-card">
+        <!-- Dark Mode Toggle -->
+        <div class="setting-item">
+          <div class="setting-icon-wrapper icon-blue">
+            <ion-icon name="contrast-outline"></ion-icon>
+          </div>
+          <span class="setting-label">Apariencia</span>
+          <ion-toggle
+            slot="end"
+            [(ngModel)]="darkMode"
+            (ionChange)="toggleDarkMode($event)"
+            mode="ios"
+          ></ion-toggle>
+        </div>
+
+        <div class="setting-divider"></div>
+
+        <!-- Delete Data Button -->
+        <button class="setting-item setting-button" (click)="deleteAllData()">
+          <div class="setting-icon-wrapper icon-red">
+            <ion-icon name="trash-outline"></ion-icon>
+          </div>
+          <span class="setting-label danger-text">Borrar Todos los Gastos</span>
+          <ion-icon name="chevron-forward-outline" class="chevron-icon"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Logout Button -->
+    <div class="logout-section">
+      <button class="ios-button logout-button" (click)="logout()">
+        Cerrar Sesión
+      </button>
+    </div>
+  </div>
+</ion-content>

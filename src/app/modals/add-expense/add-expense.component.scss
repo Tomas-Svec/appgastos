@@ -367,3 +367,114 @@ ion-content {
     }
   }
 }
+
+// Dark Mode Support
+.dark {
+  ion-content {
+    &.expense-content {
+      --background: #121d20;
+    }
+  }
+
+  .modal-title {
+    color: #FFFFFF;
+  }
+
+  .modal-subtitle {
+    color: #8E8E93;
+  }
+
+  .form-group {
+    .form-label {
+      color: #8E8E93;
+    }
+
+    .form-label-with-action {
+      .form-label {
+        color: #FFFFFF;
+      }
+    }
+
+    ion-item {
+      --background: #1C1C1E;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+      ion-input,
+      ion-select {
+        color: #FFFFFF;
+        --color: #FFFFFF;
+        --placeholder-color: #8E8E93;
+      }
+    }
+  }
+
+  .categories-list {
+    background: #1C1C1E;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    .categories-title {
+      color: #8E8E93;
+    }
+
+    .categories-grid {
+      .category-badge {
+        background: #2C2C2E;
+
+        .category-name {
+          color: #FFFFFF;
+        }
+
+        .delete-category-btn {
+          color: #8E8E93;
+
+          &:hover {
+            color: #FFFFFF;
+          }
+        }
+      }
+
+      .add-new-category-btn {
+        background: rgba(0, 122, 255, 0.2);
+        color: #0A84FF;
+
+        &:hover:not(:disabled) {
+          background: rgba(0, 122, 255, 0.3);
+        }
+      }
+    }
+  }
+
+  .new-category-form {
+    background: transparent;
+    border-top: 1px solid #38383A;
+
+    .form-group {
+      ion-item {
+        --background: #1C1C1E;
+      }
+    }
+  }
+
+  .toggle-row {
+    background: #1C1C1E;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    ion-label {
+      color: #FFFFFF;
+    }
+
+    ion-toggle {
+      --background: #38383A;
+      --background-checked: #007AFF;
+    }
+  }
+
+  .installments-section {
+    .form-group {
+      ion-item {
+        --background: #1C1C1E;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
+}

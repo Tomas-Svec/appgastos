@@ -28,7 +28,7 @@ export class AddExpenseComponent implements OnInit {
   expense: Expense = {
     description: '',
     category: 'Comida',
-    amount: 0,
+    amount: null as any,
     hasInstallments: false,
     installments: 1,
     firstPaymentDate: new Date().toISOString().split('T')[0]
@@ -86,13 +86,13 @@ export class AddExpenseComponent implements OnInit {
       return;
     }
 
-    if (this.expense.amount <= 0) {
+    if (!this.expense.amount || this.expense.amount <= 0) {
       this.errorMessage = 'Por favor ingresa un monto válido';
       await this.showToast('Monto inválido', 'warning');
       return;
     }
 
-    if (this.expense.hasInstallments && this.expense.installments < 2) {
+    if (this.expense.hasInstallments && (!this.expense.installments || this.expense.installments < 2)) {
       this.errorMessage = 'Debe tener al menos 2 cuotas';
       await this.showToast('Cuotas insuficientes', 'warning');
       return;
@@ -108,9 +108,9 @@ export class AddExpenseComponent implements OnInit {
       const expenseData = {
         ...this.expense,
         id: expenseId,
-        monthlyAmount: this.expense.hasInstallments
-          ? this.expense.amount / this.expense.installments
-          : this.expense.amount
+        monthlyAmount: this.expense.hasInstallments && this.expense.installments
+          ? this.expense.amount! / this.expense.installments
+          : this.expense.amount!
       };
 
       await this.showToast('Gasto guardado correctamente', 'success');
@@ -225,5 +225,19 @@ export class AddExpenseComponent implements OnInit {
       currency: 'USD',
       minimumFractionDigits: 2
     }).format(amount);
+  }
+
+  onAmountFocus() {
+    // Limpiar el campo si está en null o 0
+    if (!this.expense.amount || this.expense.amount === 0) {
+      this.expense.amount = null as any;
+    }
+  }
+
+  onInstallmentsFocus() {
+    // Limpiar el campo si está en 1 (valor por defecto)
+    if (this.expense.installments === 1) {
+      this.expense.installments = null as any;
+    }
   }
 }
