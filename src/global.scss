@@ -97,10 +97,7 @@
 /* Input Ionic components */
 ion-input {
   --border-radius: 1rem;
-}
-
-ion-input:not(.dark) {
-  --color: #000000;
+  --color: #000000; /* Color por defecto en light mode */
 }
 
 .dark ion-input,
@@ -110,15 +107,20 @@ ion-input:not(.dark) {
 
 ion-textarea {
   --border-radius: 1rem;
-}
-
-ion-textarea:not(.dark) {
-  --color: #000000;
+  --color: #000000; /* Color por defecto en light mode */
 }
 
 .dark ion-textarea,
 :root[class*="dark"] ion-textarea {
   --color: #ffffff;
+}
+
+/* Ion Item - Asegurar que no sobrescriba los colores de input */
+ion-item {
+  ion-input,
+  ion-textarea {
+    --color: inherit;
+  }
 }
 
 /* Modal styles */
@@ -240,5 +242,122 @@ ion-modal {
     &.alert-button-role-destructive {
       color: #FF453A;
     }
+  }
+}
+
+/**
+ * iOS Safe Area & Bottom Spacing (Global)
+ * -----------------------------------------------------
+ * Asegura que el contenido no se pegue al borde inferior
+ * en dispositivos con/sin notch
+ */
+
+/* Variables CSS para espaciado consistente */
+:root {
+  --app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --app-bottom-margin: 4px; /* Margen base sutil para dispositivos sin notch */
+  --app-total-bottom-spacing: calc(var(--app-bottom-margin) + var(--app-safe-area-bottom));
+}
+
+/* Tabs Container - Ajuste para evitar expansión */
+ion-tabs {
+  contain: layout style;
+  position: relative;
+}
+
+/* Tab Bar - Espaciado inferior global */
+ion-tab-bar {
+  /* Altura compacta estilo iOS */
+  height: 49px;
+  min-height: 49px;
+  max-height: 49px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  padding-top: 0;
+
+  /* iOS blur effect */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: var(--ion-background-color, #ffffff);
+  border-top: 0.5px solid var(--ion-color-step-150, #d7d8da);
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab buttons - Ajuste de tamaño */
+ion-tab-button {
+  --padding-top: 4px;
+  --padding-bottom: 2px;
+
+  ion-icon {
+    font-size: 22px;
+    margin-bottom: 2px;
+  }
+
+  ion-label {
+    font-size: 10px;
+    margin-top: 2px;
+  }
+}
+
+/* Footer - Espaciado inferior global */
+ion-footer {
+  padding-bottom: var(--app-total-bottom-spacing);
+
+  /* iOS style */
+  background: var(--ion-background-color, #ffffff);
+  border-top: 0.5px solid var(--ion-color-step-150, #d7d8da);
+  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Content - Padding inferior para evitar solapamiento con tabs/footer */
+ion-content {
+  --padding-bottom: var(--app-total-bottom-spacing);
+}
+
+/* Toolbar en footer - Ajuste adicional */
+ion-footer ion-toolbar {
+  padding-bottom: var(--app-total-bottom-spacing);
+  --padding-bottom: var(--app-total-bottom-spacing);
+}
+
+/* FAB (Floating Action Button) - Ajuste de posición */
+ion-fab {
+  &[vertical="bottom"] {
+    margin-bottom: calc(var(--app-total-bottom-spacing) + 16px);
+  }
+}
+
+/* Modal bottom sheets - Espaciado inferior */
+ion-modal.bottom-sheet {
+  .modal-wrapper {
+    padding-bottom: var(--app-safe-area-bottom);
+  }
+}
+
+/* Dark mode adjustments */
+.dark,
+:root[class*="dark"] {
+  ion-tab-bar {
+    background: rgba(28, 28, 30, 0.85);
+    border-top-color: #38383A;
+  }
+
+  ion-footer {
+    background: rgba(28, 28, 30, 0.95);
+    border-top-color: #38383A;
+  }
+}
+
+/**
+ * Responsive adjustments para tablets y pantallas grandes
+ */
+@media (min-width: 768px) {
+  :root {
+    --app-bottom-margin: 8px; /* Más espacio en tablets */
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --app-bottom-margin: 12px; /* Aún más espacio en desktop */
   }
 }

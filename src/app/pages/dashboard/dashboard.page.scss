@@ -56,7 +56,7 @@ ion-content {
 
 .dashboard-content {
   padding: 16px;
-  padding-bottom: 100px;
+  // padding-bottom manejado globalmente por ion-content safe-area
 }
 
 // Summary Cards
@@ -701,9 +701,10 @@ ion-content {
   }
 }
 
-// FAB Button
+// FAB Button (margin-bottom manejado globalmente en global.scss)
 ion-fab {
-  margin: 0 24px 24px 0;
+  margin-right: 24px;
+  // margin-bottom se calcula automáticamente con safe-area en global.scss
 
   ion-fab-button {
     --background: #007AFF;

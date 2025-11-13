@@ -1,40 +1,27 @@
-// Estilos iOS para tab bar
+// Estilos iOS para tab bar (los estilos base y spacing están en global.scss)
 .ios-tab-bar {
-  --background: var(--ion-background-color, #ffffff);
+  --background: transparent; // El background se maneja globalmente
   --border: 0.5px solid var(--ion-color-step-150, #d7d8da);
-
-  height: 50px;
-  border-top: 0.5px solid var(--ion-color-step-150, #d7d8da);
-  box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
-
-  // Backdrop blur para efecto iOS
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 
 .ios-tab-button {
   --color: var(--ion-color-medium, #92949c);
   --color-selected: var(--ion-color-primary, #3880ff);
 
-  // Estilos para el icono (usando CSS variables que penetran Shadow DOM)
+  // Transiciones suaves
   ion-icon {
-    font-size: 24px;
-    margin-bottom: 2px;
     transition: transform 0.2s ease-in-out;
   }
 
-  // Estilos para el label
   ion-label {
-    font-size: 10px;
     font-weight: 500;
-    margin-top: 2px;
     transition: font-weight 0.2s ease-in-out;
   }
 
   // Estado seleccionado
   &.tab-selected {
     ion-icon {
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     ion-label {
@@ -48,7 +35,7 @@
       --color: var(--ion-color-primary-shade, #3171e0);
 
       ion-icon {
-        transform: scale(1.05);
+        transform: scale(1.02);
       }
     }
   }
@@ -59,20 +46,9 @@
   }
 }
 
-// Safe area para dispositivos con notch
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .ios-tab-bar {
-    padding-bottom: env(safe-area-inset-bottom);
-    height: calc(50px + env(safe-area-inset-bottom));
-  }
-}
-
-// Dark mode
+// Dark mode (el background se maneja globalmente)
 .dark {
   .ios-tab-bar {
-    --background: rgba(28, 28, 30, 0.8);
     --border: 0.5px solid #38383A;
-
-    border-top-color: #38383A;
   }
 }

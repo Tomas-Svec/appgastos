@@ -70,6 +70,7 @@ ion-content {
 
     ion-input {
       font-size: 16px;
+      --color: #000000; /* Color del texto en light mode */
       --placeholder-color: #8A8A8E;
       --placeholder-opacity: 1;
     }
