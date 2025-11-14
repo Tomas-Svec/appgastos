@@ -19,6 +19,16 @@ ion-header {
     color: #1C1C1E;
   }
 
+  ion-button {
+    --color: #007AFF;
+    --padding-start: 8px;
+    --padding-end: 8px;
+
+    ion-icon {
+      font-size: 24px;
+    }
+  }
+
   .header-add-button {
     --color: #007AFF;
     --padding-start: 12px;
@@ -51,12 +61,12 @@ ion-header {
 }
 
 ion-content {
-  --background: #f6f7f8;
+  --background: #e7ecf1;
 }
 
 .dashboard-content {
   padding: 16px;
-  // padding-bottom manejado globalmente por ion-content safe-area
+  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
 }
 
 // Summary Cards
@@ -609,12 +619,17 @@ ion-content {
 }
 
 // Dark Mode Support
-.dark {
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
   .header-toolbar {
-    --background: rgba(28, 28, 30, 0.8);
+    --background: rgba(52, 52, 65, 0.8);
 
     .header-title {
       color: #FFFFFF;
+    }
+
+    ion-button {
+      --color: #0A84FF;
     }
 
     .header-add-button {
@@ -625,7 +640,11 @@ ion-content {
   }
 
   ion-content {
-    --background: #121d20;
+    --background: #000000;
+  }
+
+  .dashboard-content {
+    background: #202530;
   }
 
   .ios-card {
@@ -696,8 +715,26 @@ ion-content {
     }
   }
 
+  .installment-item {
+    .installment-name,
+    .installment-amount {
+      color: #FFFFFF;
+    }
+
+    .installment-progress-text {
+      color: #8E8E93;
+    }
+  }
+
   .empty-state {
     color: #8E8E93;
+  }
+
+  // Asegurar que TODOS los textos oscuros se vean en blanco
+  .card-amount,
+  .stat-amount,
+  .legend-value {
+    color: #FFFFFF !important;
   }
 }
 

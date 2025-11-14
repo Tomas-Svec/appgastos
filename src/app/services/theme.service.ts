@@ -40,8 +40,10 @@ export class ThemeService {
   private applyTheme(darkMode: boolean): void {
     if (darkMode) {
       document.body.classList.add('dark');
+      document.body.classList.add('ion-palette-dark');
     } else {
       document.body.classList.remove('dark');
+      document.body.classList.remove('ion-palette-dark');
     }
   }
 }

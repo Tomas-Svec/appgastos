@@ -76,8 +76,8 @@
   --ion-color-light-tint: #f3f3f8;
 
   /** iOS specific background colors **/
-  --ion-background-color: #f6f7f8;
-  --ion-background-color-rgb: 246, 247, 248;
+  --ion-background-color: #e7ecf1;
+  --ion-background-color-rgb: 231, 236, 241;
 
   --ion-text-color: #000000;
   --ion-text-color-rgb: 0, 0, 0;
@@ -86,9 +86,9 @@
 
   --ion-item-background: #ffffff;
 
-  --ion-toolbar-background: #f8f8f8;
+  --ion-toolbar-background: #e7ecf1;
 
-  --ion-tab-bar-background: #f8f8f8;
+  --ion-tab-bar-background: #e7ecf1;
 
   --ion-card-background: #ffffff;
 }
@@ -96,4 +96,24 @@
 /* iOS mode specific styles */
 .ios {
   --ion-toolbar-border-color: rgba(0, 0, 0, 0.12);
+}
+
+/** Dark Mode Override **/
+body.ion-palette-dark,
+body.dark {
+  --ion-background-color: #202530;
+  --ion-background-color-rgb: 32, 37, 48;
+
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+
+  --ion-border-color: #38383A;
+
+  --ion-item-background: #1C1C1E;
+
+  --ion-toolbar-background: rgba(52, 52, 65, 0.8);
+
+  --ion-tab-bar-background: rgba(52, 52, 65, 0.85);
+
+  --ion-card-background: #1C1C1E;
 }

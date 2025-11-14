@@ -46,6 +46,16 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Body background colors */
+body {
+  background-color: #e7ecf1;
+}
+
+body.dark,
+body.ion-palette-dark {
+  background-color: #202530;
+}
+
 /* Card styles */
 .ios-card {
   background: white;
@@ -255,8 +265,8 @@ ion-modal {
 /* Variables CSS para espaciado consistente */
 :root {
   --app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --app-bottom-margin: 4px; /* Margen base sutil para dispositivos sin notch */
-  --app-total-bottom-spacing: calc(var(--app-bottom-margin) + var(--app-safe-area-bottom));
+  //--app-bottom-margin: 4px; /* Margen base sutil para dispositivos sin notch */
+  //--app-total-bottom-spacing: calc(var(--app-bottom-margin) + var(--app-safe-area-bottom));
 }
 
 /* Tabs Container - Ajuste para evitar expansión */

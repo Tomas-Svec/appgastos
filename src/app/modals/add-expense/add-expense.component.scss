@@ -6,7 +6,7 @@ ion-header {
 
 ion-content {
   &.expense-content {
-    --background: #f6f7f8;
+    --background: #e7ecf1;
     --padding-top: 16px;
     --padding-bottom: 16px;
     --padding-start: 16px;
@@ -369,10 +369,11 @@ ion-content {
 }
 
 // Dark Mode Support
-.dark {
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
   ion-content {
     &.expense-content {
-      --background: #121d20;
+      --background: #202530;
     }
   }
 
