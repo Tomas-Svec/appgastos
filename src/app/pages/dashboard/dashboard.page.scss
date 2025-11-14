@@ -716,9 +716,11 @@ ion-content {
   }
 
   .installment-item {
+    background: #1C1C1E;
+
     .installment-name,
     .installment-amount {
-      color: #FFFFFF;
+      color: #FFFFFF !important;
     }
 
     .installment-progress-text {
@@ -733,7 +735,10 @@ ion-content {
   // Asegurar que TODOS los textos oscuros se vean en blanco
   .card-amount,
   .stat-amount,
-  .legend-value {
+  .legend-value,
+  .expense-name,
+  .installment-name,
+  .installment-amount {
     color: #FFFFFF !important;
   }
 }

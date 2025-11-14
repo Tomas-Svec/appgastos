@@ -1,5 +1,5 @@
 ion-content {
-  --background: #f6f7f8;
+  --background: #e7ecf1;
 }
 
 .register-container {
@@ -76,6 +76,7 @@ ion-content {
 
     ion-input {
       font-size: 16px;
+      --color: #000000;
       --placeholder-color: #8A8A8E;
       --placeholder-opacity: 1;
     }
@@ -128,9 +129,10 @@ ion-content {
 }
 
 // Dark Mode Support
-.dark {
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
   ion-content {
-    --background: #121d20;
+    --background: #202530;
   }
 
   .logo-section {

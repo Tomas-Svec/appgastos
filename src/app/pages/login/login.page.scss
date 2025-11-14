@@ -1,5 +1,5 @@
 ion-content {
-  --background: #f6f7f8;
+  --background: #e7ecf1;
 }
 
 .login-container {
@@ -147,9 +147,10 @@ ion-content {
 }
 
 // Dark Mode Support
-.dark {
+:host-context(body.dark),
+:host-context(body.ion-palette-dark) {
   ion-content {
-    --background: #121d20;
+    --background: #202530;
   }
 
   .logo-section {

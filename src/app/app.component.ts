@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeService } from './services/theme.service';
+import { DatabaseService } from './services/database.service';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,18 @@ import { ThemeService } from './services/theme.service';
   standalone: false,
 })
 export class AppComponent implements OnInit {
-  constructor(private themeService: ThemeService) {}
+  constructor(
+    private themeService: ThemeService,
+    private databaseService: DatabaseService
+  ) {}
 
-  ngOnInit() {
-    // El ThemeService se inicializa automáticamente y aplica el tema
+  async ngOnInit() {
+    // Inicializar base de datos ANTES de cualquier otra operación
+    try {
+      await this.databaseService.initializeDatabase();
+      console.log('Database initialized successfully');
+    } catch (error) {
+      console.error('Failed to initialize database:', error);
+    }
   }
 }
