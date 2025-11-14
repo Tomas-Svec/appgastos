@@ -9,6 +9,7 @@ import { AddIncomeComponent } from '../../modals/add-income/add-income.component
 import { ExpenseService } from '../../services/expense.service';
 import { AuthService } from '../../services/auth.service';
 import { ThemeService } from '../../services/theme.service';
+import { DatabaseService } from '../../services/database.service';
 import { Expense } from '../../models';
 
 interface Installment {
@@ -48,7 +49,8 @@ export class DashboardPage implements OnInit, OnDestroy {
     private expenseService: ExpenseService,
     private authService: AuthService,
     private themeService: ThemeService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private databaseService: DatabaseService
   ) { }
 
   async ngOnInit() {
@@ -56,6 +58,11 @@ export class DashboardPage implements OnInit, OnDestroy {
 
     // Suscribirse a cambios de tema
     this.themeSubscription = this.themeService.darkMode$.subscribe();
+  }
+
+  async ionViewWillEnter() {
+    // Garantizar que la base de datos esté inicializada
+    await this.databaseService.ensureInitialized();
 
     // Obtener usuario autenticado
     const currentUser = this.authService.currentUserValue;
@@ -73,9 +80,12 @@ export class DashboardPage implements OnInit, OnDestroy {
   }
 
   async loadExpenses() {
-    if (!this.currentUserId) return;
+    if (!this.currentUserId) {
+      return;
+    }
 
     this.isLoading = true;
+
     try {
       // Cargar todos los gastos del usuario
       const allExpenses = await this.expenseService.getExpensesByUser(this.currentUserId);
@@ -93,7 +103,7 @@ export class DashboardPage implements OnInit, OnDestroy {
 
       this.calculateBalance();
     } catch (error) {
-      console.error('Error loading expenses:', error);
+      // Error loading expenses
     } finally {
       this.isLoading = false;
     }
@@ -183,7 +193,6 @@ export class DashboardPage implements OnInit, OnDestroy {
 
     const { data } = await modal.onWillDismiss();
     if (data && data.success !== false) {
-      console.log('Expense data:', data);
       // Recargar los datos del dashboard
       await this.loadExpenses();
     }
@@ -201,7 +210,6 @@ export class DashboardPage implements OnInit, OnDestroy {
 
     const { data } = await modal.onWillDismiss();
     if (data && data.success !== false) {
-      console.log('Income data:', data);
       // Actualizar el ingreso mensual
       if (data && data.amount) {
         this.monthlyIncome = data.amount;
@@ -212,13 +220,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   getCategoryIcon(category: string): string {
     const icons: { [key: string]: string } = {
-      'Comida': 'restaurant-outline',
-      'Transporte': 'car-outline',
-      'Entretenimiento': 'game-controller-outline',
-      'Compras': 'cart-outline',
-      'Salud': 'fitness-outline',
-      'Educación': 'school-outline',
-      'Servicios': 'construct-outline',
+      'Estación de servicio': 'flame-outline',
+      'Internet': 'wifi-outline',
+      'Tarjeta Galicia': 'card-outline',
+      'Tarjeta Naranja': 'card-outline',
+      'Salidas': 'restaurant-outline',
+      'Seguro': 'shield-checkmark-outline',
       'Otros': 'ellipsis-horizontal-outline'
     };
     return icons[category] || 'pricetag-outline';
@@ -226,13 +233,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   getCategoryIconClass(category: string): string {
     const classes: { [key: string]: string } = {
-      'Comida': 'icon-orange',
-      'Transporte': 'icon-blue',
-      'Entretenimiento': 'icon-purple',
-      'Compras': 'icon-red',
-      'Salud': 'icon-green',
-      'Educación': 'icon-purple',
-      'Servicios': 'icon-orange',
+      'Estación de servicio': 'icon-orange',
+      'Internet': 'icon-blue',
+      'Tarjeta Galicia': 'icon-purple',
+      'Tarjeta Naranja': 'icon-red',
+      'Salidas': 'icon-green',
+      'Seguro': 'icon-blue',
       'Otros': 'icon-gray'
     };
     return classes[category] || 'icon-blue';
@@ -240,13 +246,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   getCategoryProgressClass(category: string): string {
     const classes: { [key: string]: string } = {
-      'Comida': 'progress-orange',
-      'Transporte': 'progress-primary',
-      'Entretenimiento': 'progress-purple',
-      'Compras': 'progress-red',
-      'Salud': 'progress-green',
-      'Educación': 'progress-purple',
-      'Servicios': 'progress-orange',
+      'Estación de servicio': 'progress-orange',
+      'Internet': 'progress-primary',
+      'Tarjeta Galicia': 'progress-purple',
+      'Tarjeta Naranja': 'progress-red',
+      'Salidas': 'progress-green',
+      'Seguro': 'progress-primary',
       'Otros': 'progress-gray'
     };
     return classes[category] || 'progress-primary';
@@ -254,13 +259,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   getCategoryColor(category: string): string {
     const colors: { [key: string]: string } = {
-      'Comida': '#FF9500',
-      'Transporte': '#5AC8FA',
-      'Entretenimiento': '#AF52DE',
-      'Compras': '#FF3B30',
-      'Salud': '#34C759',
-      'Educación': '#AF52DE',
-      'Servicios': '#FF9500',
+      'Estación de servicio': '#FF9500',
+      'Internet': '#22acd0',
+      'Tarjeta Galicia': '#AF52DE',
+      'Tarjeta Naranja': '#FF3B30',
+      'Salidas': '#34C759',
+      'Seguro': '#22acd0',
       'Otros': '#8E8E93'
     };
     return colors[category] || '#007AFF';
@@ -268,13 +272,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   getExpenseIcon(category: string): string {
     const icons: { [key: string]: string } = {
-      'Comida': 'restaurant-outline',
-      'Transporte': 'car-outline',
-      'Entretenimiento': 'game-controller-outline',
-      'Compras': 'cart-outline',
-      'Salud': 'fitness-outline',
-      'Educación': 'school-outline',
-      'Servicios': 'construct-outline',
+      'Estación de servicio': 'flame-outline',
+      'Internet': 'wifi-outline',
+      'Tarjeta Galicia': 'card-outline',
+      'Tarjeta Naranja': 'card-outline',
+      'Salidas': 'restaurant-outline',
+      'Seguro': 'shield-checkmark-outline',
       'Otros': 'ellipsis-horizontal-outline'
     };
     return icons[category] || 'pricetag-outline';
@@ -282,13 +285,12 @@ export class DashboardPage implements OnInit, OnDestroy {
 
   getExpenseIconClass(category: string): string {
     const classes: { [key: string]: string } = {
-      'Comida': 'icon-orange',
-      'Transporte': 'icon-blue',
-      'Entretenimiento': 'icon-purple',
-      'Compras': 'icon-red',
-      'Salud': 'icon-green',
-      'Educación': 'icon-purple',
-      'Servicios': 'icon-orange',
+      'Estación de servicio': 'icon-orange',
+      'Internet': 'icon-blue',
+      'Tarjeta Galicia': 'icon-purple',
+      'Tarjeta Naranja': 'icon-red',
+      'Salidas': 'icon-green',
+      'Seguro': 'icon-blue',
       'Otros': 'icon-gray'
     };
     return classes[category] || 'icon-blue';
@@ -333,7 +335,7 @@ export class DashboardPage implements OnInit, OnDestroy {
     try {
       await Haptics.impact({ style: ImpactStyle.Light });
     } catch (error) {
-      console.log('Haptics not available on this platform');
+      // Haptics not available
     }
 
     // Alert de confirmación estilo iOS
@@ -358,7 +360,7 @@ export class DashboardPage implements OnInit, OnDestroy {
               // Feedback háptico más fuerte al confirmar eliminación
               await Haptics.impact({ style: ImpactStyle.Medium });
             } catch (error) {
-              console.log('Haptics not available');
+              // Haptics not available
             }
 
             // Eliminar el gasto de la base de datos
@@ -370,10 +372,7 @@ export class DashboardPage implements OnInit, OnDestroy {
 
               // Recargar los datos
               await this.loadExpenses();
-
-              console.log('Cuota eliminada exitosamente');
             } catch (error) {
-              console.error('Error al eliminar cuota:', error);
 
               // Mostrar error al usuario
               const errorAlert = await this.alertController.create({

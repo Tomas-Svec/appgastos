@@ -30,8 +30,7 @@ export class AuditService {
 
       audits.push(newAudit);
       localStorage.setItem('audits', JSON.stringify(audits));
-      console.log('Audit created with ID:', newAudit.id);
-      return newAudit.id!;
+      //udit.id!;
     }
 
     // Native SQLite implementation
@@ -54,13 +53,11 @@ export class AuditService {
       const result = await this.databaseService.run(query, values);
 
       if (result.changes && result.changes.lastId) {
-        console.log('Audit created with ID:', result.changes.lastId);
         return result.changes.lastId;
-      }
+      }//
 
       throw new Error('Failed to create audit');
     } catch (error) {
-      console.error('Error creating audit:', error);
       throw error;
     }
   }
@@ -91,7 +88,6 @@ export class AuditService {
 
       return [];
     } catch (error) {
-      console.error('Error getting audits by user:', error);
       throw error;
     }
   }
@@ -121,7 +117,6 @@ export class AuditService {
 
       return [];
     } catch (error) {
-      console.error('Error getting audits by entity:', error);
       throw error;
     }
   }
@@ -157,7 +152,6 @@ export class AuditService {
 
       return [];
     } catch (error) {
-      console.error('Error getting recent audits:', error);
       throw error;
     }
   }
@@ -187,7 +181,6 @@ export class AuditService {
 
       return [];
     } catch (error) {
-      console.error('Error getting audits by action:', error);
       throw error;
     }
   }

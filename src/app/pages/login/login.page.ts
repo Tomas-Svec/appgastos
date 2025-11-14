@@ -39,12 +39,10 @@ export class LoginPage implements OnInit {
   async checkBiometricAvailability() {
     try {
       const result = await NativeBiometric.isAvailable();
-      console.log('Biometric available:', result.isAvailable);
-      console.log('Biometric type:', result.biometryType);
-    } catch (error) {
-      console.log('Biometric not available', error);
+    } //r) {
+      //ndling
     }
-  }
+  }//
 
   async login() {
     // Validar campos
@@ -101,7 +99,6 @@ export class LoginPage implements OnInit {
       }
     } catch (error: any) {
       await loading.dismiss();
-      console.error('Login error:', error);
 
       // Intentar manejador personalizado de errores
       if (customErrorHandler) {

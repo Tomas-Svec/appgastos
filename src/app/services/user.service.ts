@@ -31,7 +31,7 @@ export class UserService {
 
       users.push(newUser);
       localStorage.setItem('users', JSON.stringify(users));
-      console.log('User created with ID:', newUser.id);
+      //('User created with ID:', newUser.id);
       return newUser.id!;
     }
 
@@ -45,7 +45,7 @@ export class UserService {
       const result = await this.databaseService.run(query, [email, password]);
 
       if (result.changes && result.changes.lastId) {
-        console.log('User created with ID:', result.changes.lastId);
+        //('User created with ID:', result.changes.lastId);
         return result.changes.lastId;
       }
 
@@ -98,7 +98,7 @@ export class UserService {
       if (userIndex !== -1) {
         users[userIndex].monthlyIncome = income;
         localStorage.setItem('users', JSON.stringify(users));
-        console.log('User income updated');
+        //('User income updated');
       }
       return;
     }
@@ -110,7 +110,7 @@ export class UserService {
 
     try {
       await this.databaseService.run(query, [income, userId]);
-      console.log('User income updated');
+      //('User income updated');
     } catch (error) {
       console.error('Error updating user income:', error);
       throw error;

@@ -70,7 +70,6 @@ export class AuthService {
 
       return user;
     } catch (error: any) {
-      console.error('Error in register:', error);
       throw error;
     }
   }
@@ -102,7 +101,6 @@ export class AuthService {
 
       return user;
     } catch (error: any) {
-      console.error('Error in login:', error);
       throw error;
     }
   }
@@ -137,8 +135,6 @@ export class AuthService {
       // Si la biometría fue exitosa, hacer login con las credenciales guardadas
       return await this.login(credentials.username, credentials.password);
     } catch (error: any) {
-      console.error('Error in biometric login:', error);
-
       // Si el usuario canceló la biometría, intentar con credenciales guardadas
       if (error.code === 10 || error.code === 13) {
         const credentials = await this.getBiometricCredentials();

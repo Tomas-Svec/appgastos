@@ -18,9 +18,8 @@ export class AppComponent implements OnInit {
     // Inicializar base de datos ANTES de cualquier otra operación
     try {
       await this.databaseService.initializeDatabase();
-      console.log('Database initialized successfully');
     } catch (error) {
-      console.error('Failed to initialize database:', error);
+      // Error handling
     }
   }
 }

@@ -32,7 +32,6 @@ export class CategoryService {
 
       categories.push(newCategory);
       localStorage.setItem('categories', JSON.stringify(categories));
-      console.log('Category created with ID:', newCategory.id);
       return newCategory.id!;
     }
 
@@ -53,7 +52,6 @@ export class CategoryService {
       const result = await this.databaseService.run(query, values);
 
       if (result.changes && result.changes.lastId) {
-        console.log('Category created with ID:', result.changes.lastId);
         return result.changes.lastId;
       }
 
@@ -62,7 +60,6 @@ export class CategoryService {
       if (error.message?.includes('UNIQUE constraint failed')) {
         throw new Error('La categoría ya existe');
       }
-      console.error('Error creating category:', error);
       throw error;
     }
   }
@@ -93,7 +90,6 @@ export class CategoryService {
 
       return [];
     } catch (error) {
-      console.error('Error getting categories:', error);
       throw error;
     }
   }
@@ -126,7 +122,6 @@ export class CategoryService {
 
       return [];
     } catch (error) {
-      console.error('Error getting active categories:', error);
       throw error;
     }
   }
@@ -158,7 +153,6 @@ export class CategoryService {
 
       return null;
     } catch (error) {
-      console.error('Error getting category:', error);
       throw error;
     }
   }
@@ -177,7 +171,6 @@ export class CategoryService {
           ...updates
         };
         localStorage.setItem('categories', JSON.stringify(categories));
-        console.log('Category updated');
       }
       return;
     }
@@ -214,9 +207,7 @@ export class CategoryService {
 
     try {
       await this.databaseService.run(query, values);
-      console.log('Category updated');
     } catch (error) {
-      console.error('Error updating category:', error);
       throw error;
     }
   }
@@ -238,7 +229,6 @@ export class CategoryService {
           localStorage.setItem('categories', JSON.stringify(categories));
         }
       }
-      console.log('Category deleted');
       return;
     }
 
@@ -249,9 +239,7 @@ export class CategoryService {
 
     try {
       await this.databaseService.run(query, [categoryId]);
-      console.log('Category deleted');
     } catch (error) {
-      console.error('Error deleting category:', error);
       throw error;
     }
   }
@@ -261,29 +249,25 @@ export class CategoryService {
     const existingCategories = await this.getAllCategories();
 
     if (existingCategories.length > 0) {
-      console.log('Categories already initialized');
       return;
     }
 
     // Categorías por defecto
     const defaultCategories = [
-      { name: 'Comida', icon: 'restaurant', color: '#FF6B6B', isActive: true },
-      { name: 'Transporte', icon: 'car', color: '#4ECDC4', isActive: true },
-      { name: 'Entretenimiento', icon: 'game-controller', color: '#95E1D3', isActive: true },
-      { name: 'Compras', icon: 'cart', color: '#FFE66D', isActive: true },
-      { name: 'Salud', icon: 'fitness', color: '#A8E6CF', isActive: true },
-      { name: 'Educación', icon: 'school', color: '#B4A7D6', isActive: true },
-      { name: 'Servicios', icon: 'construct', color: '#FFB3BA', isActive: true },
-      { name: 'Otros', icon: 'ellipsis-horizontal', color: '#BAB8B5', isActive: true }
+      { name: 'Estación de servicio', icon: 'flame', color: '#FF9500', isActive: true },
+      { name: 'Internet', icon: 'wifi', color: '#22acd0', isActive: true },
+      { name: 'Tarjeta Galicia', icon: 'card', color: '#AF52DE', isActive: true },
+      { name: 'Tarjeta Naranja', icon: 'card', color: '#FF3B30', isActive: true },
+      { name: 'Salidas', icon: 'restaurant', color: '#34C759', isActive: true },
+      { name: 'Seguro', icon: 'shield-checkmark', color: '#22acd0', isActive: true },
+      { name: 'Otros', icon: 'ellipsis-horizontal', color: '#8E8E93', isActive: true }
     ];
 
     try {
       for (const category of defaultCategories) {
         await this.createCategory(category);
       }
-      console.log('Default categories initialized successfully');
     } catch (error) {
-      console.error('Error initializing default categories:', error);
       // No lanzar error para no interrumpir la inicialización de la base de datos
     }
   }

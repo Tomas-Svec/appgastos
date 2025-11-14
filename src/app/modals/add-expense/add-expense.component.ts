@@ -27,7 +27,7 @@ interface Expense {
 export class AddExpenseComponent implements OnInit {
   expense: Expense = {
     description: '',
-    category: 'Comida',
+    category: 'Estación de servicio',
     amount: null as any,
     hasInstallments: false,
     installments: 1,
@@ -67,7 +67,6 @@ export class AddExpenseComponent implements OnInit {
         this.expense.category = this.categories[0].name;
       }
     } catch (error) {
-      console.error('Error loading categories:', error);
       await this.showToast('Error al cargar categorías', 'danger');
     }
   }
@@ -120,7 +119,6 @@ export class AddExpenseComponent implements OnInit {
     } catch (error: any) {
       this.errorMessage = error.message || 'Error al guardar el gasto';
       await this.showToast(this.errorMessage, 'danger');
-      console.error('Error saving expense:', error);
     } finally {
       this.isLoading = false;
     }
@@ -176,7 +174,6 @@ export class AddExpenseComponent implements OnInit {
     } catch (error: any) {
       this.errorMessage = error.message || 'Error al crear la categoría';
       await this.showToast(this.errorMessage, 'danger');
-      console.error('Error creating category:', error);
     } finally {
       this.isLoading = false;
     }
@@ -200,7 +197,6 @@ export class AddExpenseComponent implements OnInit {
       await this.showToast('Categoría eliminada', 'success');
     } catch (error: any) {
       await this.showToast('Error al eliminar la categoría', 'danger');
-      console.error('Error deleting category:', error);
     }
   }
 

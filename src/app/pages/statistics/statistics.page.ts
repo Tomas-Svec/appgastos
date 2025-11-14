@@ -104,7 +104,7 @@ export class StatisticsPage implements OnInit {
       const allExpenses = await this.expenseService.getExpensesByUser(this.currentUserId);
       this.expenses.set(allExpenses);
     } catch (error) {
-      console.error('Error loading expenses:', error);
+      // Error loading expenses
     } finally {
       this.isLoading.set(false);
     }
@@ -287,13 +287,12 @@ export class StatisticsPage implements OnInit {
 
   getCategoryIcon(category: string): string {
     const icons: { [key: string]: string } = {
-      'Comida': 'restaurant-outline',
-      'Transporte': 'car-outline',
-      'Entretenimiento': 'game-controller-outline',
-      'Compras': 'cart-outline',
-      'Salud': 'fitness-outline',
-      'Educación': 'school-outline',
-      'Servicios': 'construct-outline',
+      'Estación de servicio': 'flame-outline',
+      'Internet': 'wifi-outline',
+      'Tarjeta Galicia': 'card-outline',
+      'Tarjeta Naranja': 'card-outline',
+      'Salidas': 'restaurant-outline',
+      'Seguro': 'shield-checkmark-outline',
       'Otros': 'ellipsis-horizontal-outline'
     };
     return icons[category] || 'pricetag-outline';
@@ -301,13 +300,12 @@ export class StatisticsPage implements OnInit {
 
   getCategoryIconClass(category: string): string {
     const classes: { [key: string]: string } = {
-      'Comida': 'icon-orange',
-      'Transporte': 'icon-blue',
-      'Entretenimiento': 'icon-purple',
-      'Compras': 'icon-red',
-      'Salud': 'icon-green',
-      'Educación': 'icon-purple',
-      'Servicios': 'icon-orange',
+      'Estación de servicio': 'icon-orange',
+      'Internet': 'icon-blue',
+      'Tarjeta Galicia': 'icon-purple',
+      'Tarjeta Naranja': 'icon-red',
+      'Salidas': 'icon-green',
+      'Seguro': 'icon-blue',
       'Otros': 'icon-gray'
     };
     return classes[category] || 'icon-blue';
@@ -315,13 +313,12 @@ export class StatisticsPage implements OnInit {
 
   getCategoryProgressClass(category: string): string {
     const classes: { [key: string]: string } = {
-      'Comida': 'progress-orange',
-      'Transporte': 'progress-primary',
-      'Entretenimiento': 'progress-purple',
-      'Compras': 'progress-red',
-      'Salud': 'progress-green',
-      'Educación': 'progress-purple',
-      'Servicios': 'progress-orange',
+      'Estación de servicio': 'progress-orange',
+      'Internet': 'progress-primary',
+      'Tarjeta Galicia': 'progress-purple',
+      'Tarjeta Naranja': 'progress-red',
+      'Salidas': 'progress-green',
+      'Seguro': 'progress-primary',
       'Otros': 'progress-gray'
     };
     return classes[category] || 'progress-primary';

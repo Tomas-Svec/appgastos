@@ -41,7 +41,7 @@ export class ProfilePage implements OnInit {
     try {
       Haptics.impact({ style: ImpactStyle.Light });
     } catch (error) {
-      console.log('Haptics not available');
+      //ndling
     }
   }
 
@@ -50,7 +50,7 @@ export class ProfilePage implements OnInit {
     try {
       await Haptics.impact({ style: ImpactStyle.Light });
     } catch (error) {
-      console.log('Haptics not available');
+      //ndling
     }
 
     const alert = await this.alertController.create({
@@ -69,7 +69,7 @@ export class ProfilePage implements OnInit {
             try {
               await Haptics.impact({ style: ImpactStyle.Medium });
             } catch (error) {
-              console.log('Haptics not available');
+              //ndling
             }
 
             if (this.currentUser && this.currentUser.id) {
@@ -84,8 +84,6 @@ export class ProfilePage implements OnInit {
                 });
                 await successAlert.present();
               } catch (error) {
-                console.error('Error deleting all expenses:', error);
-
                 const errorAlert = await this.alertController.create({
                   header: 'Error',
                   message: 'No se pudieron eliminar los gastos. Por favor, intenta nuevamente.',
@@ -108,9 +106,9 @@ export class ProfilePage implements OnInit {
     try {
       await Haptics.impact({ style: ImpactStyle.Light });
     } catch (error) {
-      console.log('Haptics not available');
+      // Error handling
     }
-
+//
     const alert = await this.alertController.create({
       header: 'Cerrar Sesión',
       message: '¿Estás seguro de que deseas cerrar sesión?',
@@ -126,9 +124,9 @@ export class ProfilePage implements OnInit {
             try {
               await Haptics.impact({ style: ImpactStyle.Medium });
             } catch (error) {
-              console.log('Haptics not available');
+              // Error handling
             }
-
+//
             await this.authService.logout();
             this.router.navigate(['/login']);
           }

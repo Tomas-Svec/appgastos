@@ -66,7 +66,6 @@ export class AddIncomeComponent implements OnInit {
     } catch (error: any) {
       this.errorMessage = error.message || 'Error al guardar el ingreso';
       await this.showToast(this.errorMessage, 'danger');
-      console.error('Error saving income:', error);
     } finally {
       this.isLoading = false;
     }

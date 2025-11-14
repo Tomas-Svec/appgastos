@@ -417,10 +417,13 @@ ion-content {
 
   .stat-amount,
   .chart-total,
-  .category-name,
-  .category-amount,
   .section-title-standalone {
     color: #FFFFFF;
+  }
+
+  .category-name,
+  .category-amount {
+    color: #FFFFFF !important;
   }
 
   .chart-label {

@@ -672,7 +672,7 @@ ion-content {
     }
 
     .balance-amount {
-      color: #FFFFFF;
+      color: #FFFFFF !important;
     }
 
     .legend-label {
@@ -689,11 +689,13 @@ ion-content {
       }
     }
 
-    svg circle {
-      stroke: #3A3A3C;
+    .donut-svg {
+      circle:first-child {
+        stroke: #3A3A3C !important;
+      }
 
-      &.primary {
-        stroke: #007AFF;
+      circle:last-child {
+        stroke: #0A84FF !important;
       }
     }
   }

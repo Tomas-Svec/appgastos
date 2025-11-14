@@ -17,20 +17,42 @@ export class DatabaseService {
     this.isWeb = this.platform === 'web';
   }
 
+  private initializationPromise: Promise<void> | null = null;
+
   async initializeDatabase(): Promise<void> {
+    // Si ya está inicializada, retornar inmediatamente
     if (this.isDbReady) {
       return;
     }
+
+    // Si hay una inicialización en progreso, esperar a que termine
+    if (this.initializationPromise) {
+      return this.initializationPromise;
+    }
+
+    // Iniciar nueva inicialización
+    this.initializationPromise = this.performInitialization();
+
+    try {
+      await this.initializationPromise;
+    } finally {
+      this.initializationPromise = null;
+    }
+  }
+
+  private async performInitialization(): Promise<void> {
+    //('[DatabaseService] Starting initialization...');
 
     // En web, usar localStorage como fallback
     if (this.isWeb) {
       this.initializeWebStorage();
       this.isDbReady = true;
-      console.log('Database initialized successfully (Web - localStorage)');
+      //('[DatabaseService] ✓ Initialized (Web - localStorage)');
       return;
     }
 
     try {
+      //('[DatabaseService] Creating SQLite connection...');
       // Crear o abrir la base de datos
       this.db = await this.sqlite.createConnection(
         'appgastos_db',
@@ -40,15 +62,20 @@ export class DatabaseService {
         false
       );
 
+      //('[DatabaseService] Opening database...');
       await this.db.open();
 
-      // Crear las tablas
+      //('[DatabaseService] Creating tables...');
+      // Crear las tablas (esperar a que realmente terminen)
       await this.createTables();
 
+      // Solo marcar como listo cuando TODO esté completo
       this.isDbReady = true;
-      console.log('Database initialized successfully (Native SQLite)');
+      //('[DatabaseService] ✓ Initialized (Native SQLite) - Ready to use');
     } catch (error) {
-      console.error('Error initializing database:', error);
+      console.error('[DatabaseService] ✗ Initialization failed:', error);
+      this.isDbReady = false;
+      this.db = null;
       throw error;
     }
   }
@@ -141,7 +168,11 @@ export class DatabaseService {
       await this.db.execute(createExpensesTable);
       await this.db.execute(createCategoriesTable);
       await this.db.execute(createAuditsTable);
-      console.log('Tables created successfully');
+
+      // Pequeño delay para asegurar que SQLite termine de escribir
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      //('Tables created successfully');
     } catch (error) {
       console.error('Error creating tables:', error);
       throw error;
@@ -178,7 +209,7 @@ export class DatabaseService {
       await this.db.close();
       this.db = null;
       this.isDbReady = false;
-      console.log('Database closed');
+      //('Database closed');
     }
   }
 
@@ -193,7 +224,7 @@ export class DatabaseService {
       await this.db!.execute('DROP TABLE IF EXISTS categories;');
       await this.db!.execute('DROP TABLE IF EXISTS users;');
       await this.createTables();
-      console.log('Database reset successfully');
+      //('Database reset successfully');
     } catch (error) {
       console.error('Error resetting database:', error);
       throw error;

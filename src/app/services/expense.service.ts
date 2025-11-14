@@ -31,7 +31,7 @@ export class ExpenseService {
 
       expenses.push(newExpense);
       localStorage.setItem('expenses', JSON.stringify(expenses));
-      console.log('Expense created with ID:', newExpense.id);
+      //('Expense created with ID:', newExpense.id);
       return newExpense.id!;
     }
 
@@ -59,7 +59,7 @@ export class ExpenseService {
       const result = await this.databaseService.run(query, values);
 
       if (result.changes && result.changes.lastId) {
-        console.log('Expense created with ID:', result.changes.lastId);
+        //('Expense created with ID:', result.changes.lastId);
         return result.changes.lastId;
       }
 
@@ -71,14 +71,15 @@ export class ExpenseService {
   }
 
   async getExpensesByUser(userId: number): Promise<Expense[]> {
+    //('[ExpenseService] getExpensesByUser - userId:', userId);
     await this.databaseService.ensureInitialized();
 
     // Web implementation
     if (this.databaseService.isWeb) {
       const expenses: Expense[] = JSON.parse(localStorage.getItem('expenses') || '[]');
-      return expenses
-        .filter(e => e.userId === userId)
-        .sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
+      const userExpenses = expenses.filter(e => e.userId === userId);
+      //('[ExpenseService] Found expenses (web):', userExpenses.length);
+      return userExpenses.sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
     }
 
     // Native SQLite implementation
@@ -87,15 +88,19 @@ export class ExpenseService {
     `;
 
     try {
+      //('[ExpenseService] Executing query with userId:', userId);
       const result = await this.databaseService.query(query, [userId]);
+      //('[ExpenseService] Query result:', result);
 
       if (result.values && result.values.length > 0) {
+        //('[ExpenseService] Found expenses (native):', result.values.length);
         return result.values as Expense[];
       }
 
+      //('[ExpenseService] No expenses found');
       return [];
     } catch (error) {
-      console.error('Error getting expenses:', error);
+      console.error('[ExpenseService] Error getting expenses:', error);
       throw error;
     }
   }
@@ -149,7 +154,7 @@ export class ExpenseService {
       if (expenseIndex !== -1) {
         expenses[expenseIndex].paidInstallments = paidInstallments;
         localStorage.setItem('expenses', JSON.stringify(expenses));
-        console.log('Expense installment updated');
+        //('Expense installment updated');
       }
       return;
     }
@@ -161,7 +166,7 @@ export class ExpenseService {
 
     try {
       await this.databaseService.run(query, [paidInstallments, expenseId]);
-      console.log('Expense installment updated');
+      //('Expense installment updated');
     } catch (error) {
       console.error('Error updating expense installment:', error);
       throw error;
@@ -176,7 +181,7 @@ export class ExpenseService {
       const expenses: Expense[] = JSON.parse(localStorage.getItem('expenses') || '[]');
       const filteredExpenses = expenses.filter(e => e.id !== expenseId);
       localStorage.setItem('expenses', JSON.stringify(filteredExpenses));
-      console.log('Expense deleted');
+      //('Expense deleted');
       return;
     }
 
@@ -187,7 +192,7 @@ export class ExpenseService {
 
     try {
       await this.databaseService.run(query, [expenseId]);
-      console.log('Expense deleted');
+      //('Expense deleted');
     } catch (error) {
       console.error('Error deleting expense:', error);
       throw error;
@@ -202,7 +207,7 @@ export class ExpenseService {
       const expenses: Expense[] = JSON.parse(localStorage.getItem('expenses') || '[]');
       const filteredExpenses = expenses.filter(e => e.userId !== userId);
       localStorage.setItem('expenses', JSON.stringify(filteredExpenses));
-      console.log('All user expenses deleted');
+      //('All user expenses deleted');
       return;
     }
 
@@ -213,7 +218,7 @@ export class ExpenseService {
 
     try {
       await this.databaseService.run(query, [userId]);
-      console.log('All user expenses deleted');
+      //('All user expenses deleted');
     } catch (error) {
       console.error('Error deleting all expenses:', error);
       throw error;
