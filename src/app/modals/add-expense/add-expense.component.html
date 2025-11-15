@@ -33,9 +33,6 @@
       <div class="form-group" style="flex: 1;">
         <div class="form-label-with-action">
           <ion-label class="form-label">Categoría</ion-label>
-          <button type="button" class="add-category-link" (click)="toggleCategoryForm()">
-            <ion-icon name="add-circle-outline"></ion-icon>
-          </button>
         </div>
         <ion-item lines="none" class="ios-input">
           <ion-select
@@ -55,12 +52,13 @@
         <ion-label class="form-label">Monto</ion-label>
         <ion-item lines="none" class="ios-input">
           <ion-input
-            [(ngModel)]="expense.amount"
+            [(ngModel)]="amountDisplay"
             name="amount"
-            type="number"
-            placeholder="0.00"
-            inputmode="decimal"
+            type="text"
+            [placeholder]="amountFormatted || '0'"
+            inputmode="numeric"
             (ionFocus)="onAmountFocus()"
+            (ionInput)="onAmountInput($event)"
             [disabled]="isLoading">
             <span slot="start">$</span>
           </ion-input>
@@ -156,14 +154,18 @@
 
         <div class="form-group" style="flex: 1;">
           <ion-label class="form-label">Primer pago</ion-label>
-          <ion-item lines="none" class="ios-input">
-            <ion-input
+          <mat-form-field appearance="outline" class="date-picker-field">
+            <input
+              matInput
+              [matDatepicker]="picker"
               [(ngModel)]="expense.firstPaymentDate"
               name="firstPaymentDate"
-              type="date"
-              [disabled]="isLoading">
-            </ion-input>
-          </ion-item>
+              placeholder="Selecciona fecha"
+              [disabled]="isLoading"
+              readonly>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
         </div>
       </div>
     </div>

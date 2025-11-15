@@ -37,6 +37,12 @@ export class DashboardPage implements OnInit, OnDestroy {
   activeInstallments: number = 0;
   currentMonth: string = '';
 
+  // Datos del mes anterior para calcular porcentajes
+  previousMonthIncome: number = 0;
+  previousMonthExpenses: number = 0;
+  incomeChangePercentage: number = 0;
+  expensesChangePercentage: number = 0;
+
   installments: Installment[] = [];
   expenses: Expense[] = [];
   isLoading: boolean = false;
@@ -93,6 +99,12 @@ export class DashboardPage implements OnInit, OnDestroy {
       // Calcular gastos totales del mes actual
       this.monthlyExpenses = this.calculateMonthlyExpenses(allExpenses);
 
+      // Calcular gastos del mes anterior
+      this.previousMonthExpenses = this.calculatePreviousMonthExpenses(allExpenses);
+
+      // Calcular porcentaje de cambio en gastos
+      this.expensesChangePercentage = this.calculatePercentageChange(this.previousMonthExpenses, this.monthlyExpenses);
+
       // Cargar cuotas activas
       const activeInstallmentsData = await this.expenseService.getActiveInstallments(this.currentUserId);
       this.installments = this.mapExpensesToInstallments(activeInstallmentsData);
@@ -102,6 +114,9 @@ export class DashboardPage implements OnInit, OnDestroy {
       this.expenses = this.getRecentExpenses(allExpenses, 10);
 
       this.calculateBalance();
+
+      // Calcular porcentaje de cambio en ingresos
+      this.calculateIncomeChangePercentage();
     } catch (error) {
       // Error loading expenses
     } finally {
@@ -125,6 +140,79 @@ export class DashboardPage implements OnInit, OnDestroy {
         }
         return total + (expense.amount || 0);
       }, 0);
+  }
+
+  private calculatePreviousMonthExpenses(expenses: Expense[]): number {
+    const currentDate = new Date();
+    const previousMonth = currentDate.getMonth() - 1;
+    const previousYear = previousMonth < 0 ? currentDate.getFullYear() - 1 : currentDate.getFullYear();
+    const adjustedMonth = previousMonth < 0 ? 11 : previousMonth;
+
+    return expenses
+      .filter(expense => {
+        const expenseDate = new Date(expense.firstPaymentDate || expense.createdAt || '');
+        return expenseDate.getMonth() === adjustedMonth && expenseDate.getFullYear() === previousYear;
+      })
+      .reduce((total, expense) => {
+        if (expense.hasInstallments) {
+          return total + ((expense.amount || 0) / (expense.installments || 1));
+        }
+        return total + (expense.amount || 0);
+      }, 0);
+  }
+
+  private calculatePercentageChange(previousValue: number, currentValue: number): number {
+    if (previousValue === 0) {
+      return currentValue > 0 ? 100 : 0;
+    }
+    return ((currentValue - previousValue) / previousValue) * 100;
+  }
+
+  private calculateIncomeChangePercentage(): void {
+    // Obtener el histórico de ingresos del localStorage
+    const incomeHistory = this.getIncomeHistory();
+
+    const currentDate = new Date();
+    const currentMonthKey = `${currentDate.getFullYear()}-${currentDate.getMonth()}`;
+
+    // Usar el valor anterior guardado en el histórico del mes actual como referencia
+    const previousIncome = incomeHistory[currentMonthKey];
+
+    if (previousIncome !== undefined && previousIncome !== this.monthlyIncome) {
+      // Si hay un ingreso previo guardado este mes y es diferente, calcular el cambio
+      this.previousMonthIncome = previousIncome;
+      this.incomeChangePercentage = this.calculatePercentageChange(previousIncome, this.monthlyIncome);
+    } else {
+      // Si no hay histórico previo este mes, comparar con el mes anterior
+      const previousMonth = currentDate.getMonth() - 1;
+      const previousYear = previousMonth < 0 ? currentDate.getFullYear() - 1 : currentDate.getFullYear();
+      const adjustedMonth = previousMonth < 0 ? 11 : previousMonth;
+      const previousMonthKey = `${previousYear}-${adjustedMonth}`;
+
+      this.previousMonthIncome = incomeHistory[previousMonthKey] || this.monthlyIncome;
+      this.incomeChangePercentage = this.calculatePercentageChange(this.previousMonthIncome, this.monthlyIncome);
+    }
+
+    // Guardar el ingreso actual en el histórico
+    incomeHistory[currentMonthKey] = this.monthlyIncome;
+    this.saveIncomeHistory(incomeHistory);
+  }
+
+  private getIncomeHistory(): { [key: string]: number } {
+    try {
+      const history = localStorage.getItem(`income_history_${this.currentUserId}`);
+      return history ? JSON.parse(history) : {};
+    } catch {
+      return {};
+    }
+  }
+
+  private saveIncomeHistory(history: { [key: string]: number }): void {
+    try {
+      localStorage.setItem(`income_history_${this.currentUserId}`, JSON.stringify(history));
+    } catch {
+      // Error saving history
+    }
   }
 
   private mapExpensesToInstallments(expenses: Expense[]): Installment[] {
@@ -214,8 +302,19 @@ export class DashboardPage implements OnInit, OnDestroy {
       if (data && data.amount) {
         this.monthlyIncome = data.amount;
         this.calculateBalance();
+        this.calculateIncomeChangePercentage();
       }
     }
+  }
+
+  formatPercentage(percentage: number): string {
+    const absValue = Math.abs(percentage);
+    const sign = percentage > 0 ? '+' : percentage < 0 ? '-' : '';
+    return `${sign}${absValue.toFixed(1)}%`;
+  }
+
+  getPercentageClass(percentage: number): string {
+    return percentage >= 0 ? 'positive-percentage' : 'negative-percentage';
   }
 
   getCategoryIcon(category: string): string {

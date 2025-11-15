@@ -39,7 +39,7 @@ export class LoginPage implements OnInit {
   async checkBiometricAvailability() {
     try {
       const result = await NativeBiometric.isAvailable();
-    } //r) {
+    } catch (error) {
       //ndling
     }
   }//

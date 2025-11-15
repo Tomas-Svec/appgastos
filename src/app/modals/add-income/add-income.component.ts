@@ -16,6 +16,10 @@ export class AddIncomeComponent implements OnInit {
   isLoading: boolean = false;
   errorMessage: string = '';
 
+  // Para formateo de moneda
+  incomeDisplay: string = '';
+  incomeFormatted: string = '';
+
   constructor(
     private modalController: ModalController,
     private authService: AuthService,
@@ -27,6 +31,8 @@ export class AddIncomeComponent implements OnInit {
     const currentUser = this.authService.currentUserValue;
     if (currentUser && currentUser.monthlyIncome) {
       this.monthlyIncome = currentUser.monthlyIncome;
+      this.incomeDisplay = currentUser.monthlyIncome.toString();
+      this.incomeFormatted = this.formatNumberWithThousands(currentUser.monthlyIncome);
     }
   }
 
@@ -44,7 +50,7 @@ export class AddIncomeComponent implements OnInit {
       return;
     }
 
-    if (this.monthlyIncome > 999999) {
+    if (this.monthlyIncome > 9999999) {
       this.errorMessage = 'El monto es demasiado grande';
       await this.showToast('Monto muy alto', 'warning');
       return;
@@ -93,6 +99,33 @@ export class AddIncomeComponent implements OnInit {
     // Limpiar el campo si está en null o 0
     if (!this.monthlyIncome || this.monthlyIncome === 0) {
       this.monthlyIncome = null;
+      this.incomeDisplay = '';
     }
+  }
+
+  onIncomeInput(event: any) {
+    const value = event.target.value;
+
+    // Remover todo excepto números
+    const numericValue = value.replace(/[^0-9]/g, '');
+
+    if (numericValue === '') {
+      this.monthlyIncome = null;
+      this.incomeDisplay = '';
+      this.incomeFormatted = '0';
+      return;
+    }
+
+    // Convertir a número
+    const numberValue = parseInt(numericValue, 10);
+    this.monthlyIncome = numberValue;
+
+    // Formatear para mostrar en el input con separadores de miles
+    this.incomeDisplay = this.formatNumberWithThousands(numberValue);
+    this.incomeFormatted = this.incomeDisplay;
+  }
+
+  private formatNumberWithThousands(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 }

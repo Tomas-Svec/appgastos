@@ -21,6 +21,7 @@ ion-content {
   font-weight: 700;
   color: #1C1C1E;
   margin: 0 0 4px 0;
+  //margin-bottom: 1rem;
   line-height: 1.2;
   text-align: center;
 }
@@ -316,14 +317,126 @@ ion-content {
 
   .form-row {
     margin-bottom: 0;
+    align-items: flex-start;
   }
 
   .form-group {
+    // Asegurar que ambos form-group tengan el mismo comportamiento
+    display: flex;
+    flex-direction: column;
+
+    // Label consistente para ambos campos
+    > ion-label.form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #8A8A8E;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      height: 18px; // Altura fija para alineación
+      line-height: 18px;
+    }
+
     ion-item {
       --background: white;
       --border-radius: 12px;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-      margin-bottom: 12px;
+      margin-bottom: 0;
+      height: 48px;
+    }
+
+    .date-picker-field {
+      width: 100%;
+      margin: 0 !important;
+
+      ::ng-deep {
+        // Ocultar outline y wrapper de material
+        .mdc-notched-outline,
+        .mat-mdc-form-field-focus-overlay {
+          display: none !important;
+        }
+
+        // Wrapper principal
+        .mat-mdc-text-field-wrapper {
+          background: white;
+          border-radius: 12px;
+          padding: 0 !important;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+          height: 40px;
+        }
+
+        // Contenedor flex
+        .mat-mdc-form-field-flex {
+          align-items: center;
+          height: 40px;
+          padding: 0 12px;
+          background: white;
+          border-radius: 12px;
+        }
+
+        // Input container
+        .mat-mdc-form-field-infix {
+          padding: 0 !important;
+          padding-top: 0 !important;
+          padding-bottom: 0 !important;
+          border: none;
+          min-height: 40px;
+          height: 40px;
+          display: flex;
+          align-items: center;
+          border-top: none !important;
+        }
+
+        // Input
+        input {
+          font-size: 15px;
+          color: #1C1C1E;
+          cursor: pointer;
+          padding: 0 !important;
+          margin: 0 !important;
+          border: none !important;
+          outline: none !important;
+
+          &::placeholder {
+            color: #C7C7CC;
+          }
+        }
+
+        // Ocultar subscript wrapper (texto de error/hint)
+        .mat-mdc-form-field-subscript-wrapper,
+        .mat-mdc-form-field-error-wrapper {
+          display: none !important;
+          height: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        // Botón del datepicker
+        .mat-datepicker-toggle {
+          color: #007AFF;
+          margin: 0 !important;
+
+          button {
+            width: 36px;
+            height: 36px;
+          }
+
+          .mat-mdc-button-touch-target {
+            display: none;
+          }
+        }
+
+        // Remover bottom border y espacio adicional
+        .mat-mdc-form-field-bottom-align {
+          display: none !important;
+          height: 0 !important;
+        }
+
+        .mat-mdc-form-field-bottom-align::before {
+          display: none !important;
+        }
+      }
     }
   }
 }
@@ -472,9 +585,52 @@ ion-content {
 
   .installments-section {
     .form-group {
+      > ion-label.form-label {
+        color: #8E8E93;
+      }
+
       ion-item {
         --background: #1C1C1E;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .date-picker-field {
+        ::ng-deep {
+          .mat-mdc-text-field-wrapper {
+            background: #1C1C1E;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            height: 40px;
+          }
+
+          .mat-mdc-form-field-flex {
+            background: #1C1C1E;
+            padding: 0 12px;
+            height: 40px;
+          }
+
+          .mat-mdc-form-field-infix {
+            height: 40px;
+            min-height: 40px;
+          }
+
+          input {
+            color: #FFFFFF;
+            font-size: 15px;
+
+            &::placeholder {
+              color: #48484A;
+            }
+          }
+
+          .mat-datepicker-toggle {
+            color: #0A84FF;
+
+            button {
+              width: 36px;
+              height: 36px;
+            }
+          }
+        }
       }
     }
   }

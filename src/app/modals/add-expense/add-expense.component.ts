@@ -1,11 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, registerLocaleData } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, ModalController, ToastController, PopoverController } from '@ionic/angular';
 import { ExpenseService } from '../../services/expense.service';
 import { CategoryService } from '../../services/category.service';
 import { AuthService } from '../../services/auth.service';
 import { Category } from '../../models';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { provideNativeDateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
+import localeEs from '@angular/common/locales/es';
+
+// Registrar locale español
+registerLocaleData(localeEs);
 
 interface Expense {
   userId?: number;
@@ -14,7 +22,7 @@ interface Expense {
   amount: number;
   hasInstallments: boolean;
   installments: number;
-  firstPaymentDate: string;
+  firstPaymentDate: string | Date;
 }
 
 @Component({
@@ -22,7 +30,18 @@ interface Expense {
   templateUrl: './add-expense.component.html',
   styleUrls: ['./add-expense.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [
+    CommonModule,
+    FormsModule,
+    IonicModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatFormFieldModule
+  ],
+  providers: [
+    provideNativeDateAdapter(),
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }
+  ]
 })
 export class AddExpenseComponent implements OnInit {
   expense: Expense = {
@@ -31,7 +50,7 @@ export class AddExpenseComponent implements OnInit {
     amount: null as any,
     hasInstallments: false,
     installments: 1,
-    firstPaymentDate: new Date().toISOString().split('T')[0]
+    firstPaymentDate: new Date()
   };
 
   categories: Category[] = [];
@@ -40,6 +59,10 @@ export class AddExpenseComponent implements OnInit {
   showCategoryForm: boolean = false;
   newCategoryName: string = '';
   newCategoryIcon: string = 'pricetag-outline';
+
+  // Para formateo de moneda
+  amountDisplay: string = '';
+  amountFormatted: string = '';
 
   constructor(
     private modalController: ModalController,
@@ -100,8 +123,16 @@ export class AddExpenseComponent implements OnInit {
     this.isLoading = true;
 
     try {
+      // Preparar el objeto expense con la fecha en formato correcto
+      const expenseToSave = {
+        ...this.expense,
+        firstPaymentDate: this.expense.firstPaymentDate instanceof Date
+          ? this.expense.firstPaymentDate.toISOString().split('T')[0]
+          : this.expense.firstPaymentDate
+      };
+
       // Crear el gasto en la BD
-      const expenseId = await this.expenseService.createExpense(this.expense as any);
+      const expenseId = await this.expenseService.createExpense(expenseToSave as any);
 
       // Preparar datos para enviar
       const expenseData = {
@@ -227,7 +258,34 @@ export class AddExpenseComponent implements OnInit {
     // Limpiar el campo si está en null o 0
     if (!this.expense.amount || this.expense.amount === 0) {
       this.expense.amount = null as any;
+      this.amountDisplay = '';
     }
+  }
+
+  onAmountInput(event: any) {
+    const value = event.target.value;
+
+    // Remover todo excepto números
+    const numericValue = value.replace(/[^0-9]/g, '');
+
+    if (numericValue === '') {
+      this.expense.amount = null as any;
+      this.amountDisplay = '';
+      this.amountFormatted = '0';
+      return;
+    }
+
+    // Convertir a número
+    const numberValue = parseInt(numericValue, 10);
+    this.expense.amount = numberValue;
+
+    // Formatear para mostrar en el input con separadores de miles
+    this.amountDisplay = this.formatNumberWithThousands(numberValue);
+    this.amountFormatted = this.amountDisplay;
+  }
+
+  private formatNumberWithThousands(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
 
   onInstallmentsFocus() {

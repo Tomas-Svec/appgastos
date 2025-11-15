@@ -19,28 +19,17 @@
     <div class="amount-input-wrapper">
       <div class="currency-symbol">$</div>
       <ion-input
-        [(ngModel)]="monthlyIncome"
+        [(ngModel)]="incomeDisplay"
         name="income"
-        type="number"
+        type="text"
         class="large-amount-input"
-        placeholder="0.00"
-        inputmode="decimal"
+        [placeholder]="incomeFormatted || '0'"
+        inputmode="numeric"
         (ionFocus)="onIncomeFocus()"
+        (ionInput)="onIncomeInput($event)"
         [disabled]="isLoading">
       </ion-input>
     </div>
-
-    <!-- Current Income Display -->
-    <div class="current-income-info" *ngIf="monthlyIncome">
-      <p class="info-label">Presupuesto actual:</p>
-      <p class="info-value">{{ formatCurrency(monthlyIncome) }}</p>
-    </div>
-
-    <!-- Helper Text -->
-    <p class="helper-text">
-      Este presupuesto te servirá de guía durante el mes. Los gastos se descontarán automáticamente.
-    </p>
-
     <!-- Buttons -->
     <div class="button-group">
       <ion-button

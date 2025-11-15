@@ -19,7 +19,9 @@
           <ion-icon name="arrow-up" class="income-icon"></ion-icon>
         </div>
         <div class="card-amount income-amount">{{ formatCurrency(monthlyIncome) }}</div>
-        <div class="card-percentage positive-percentage">+5.2%</div>
+        <div class="card-percentage" [ngClass]="getPercentageClass(incomeChangePercentage)">
+          {{ formatPercentage(incomeChangePercentage) }}
+        </div>
       </div>
 
       <div class="ios-card expense-card">
@@ -28,7 +30,9 @@
           <ion-icon name="arrow-down" class="expense-icon"></ion-icon>
         </div>
         <div class="card-amount expense-amount">{{ formatCurrency(monthlyExpenses) }}</div>
-        <div class="card-percentage negative-percentage">-1.8%</div>
+        <div class="card-percentage" [ngClass]="getPercentageClass(-expensesChangePercentage)">
+          {{ formatPercentage(-expensesChangePercentage) }}
+        </div>
       </div>
 
       <div class="ios-card installments-card">
