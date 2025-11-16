@@ -51,13 +51,8 @@ ion-header {
   }
 }
 
-ion-content {
-  --background: #f6f7f8;
-}
-
-.dashboard-content {
-  padding: 16px;
-  padding-bottom: 100px;
+.dashboard-content-inner {
+  // El padding se maneja en el componente compartido
 }
 
 // Summary Cards
@@ -564,10 +559,6 @@ ion-content {
 
 // Dark Mode Support
 .dark {
-  ion-content {
-    --background: #121d20;
-  }
-
   .ios-card {
     background: #1C1C1E;
     color: #FFFFFF;

@@ -1,0 +1,7 @@
+<ion-content
+  [fullscreen]="fullscreen"
+  [ngClass]="customClass">
+  <div [class.page-content-wrapper]="!noPadding" [class.no-padding]="noPadding">
+    <ng-content></ng-content>
+  </div>
+</ion-content>

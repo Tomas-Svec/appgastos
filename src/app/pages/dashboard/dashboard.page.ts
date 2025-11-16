@@ -7,6 +7,7 @@ import { AddIncomeComponent } from '../../modals/add-income/add-income.component
 import { ExpenseService } from '../../services/expense.service';
 import { AuthService } from '../../services/auth.service';
 import { Expense } from '../../models';
+import { SharedModule } from '../../shared/shared.module';
 
 interface Installment {
   id: string | number;
@@ -24,7 +25,7 @@ interface Installment {
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, SharedModule]
 })
 export class DashboardPage implements OnInit {
   monthlyIncome: number = 0;

@@ -5,13 +5,14 @@ import { IonicModule, AlertController, LoadingController } from '@ionic/angular'
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { NativeBiometric } from 'capacitor-native-biometric';
+import { SharedModule } from '../../shared/shared.module';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, IonicModule]
+  imports: [CommonModule, FormsModule, IonicModule, SharedModule]
 })
 export class LoginPage implements OnInit {
   email: string = '';
