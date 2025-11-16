@@ -273,8 +273,10 @@ ion-modal {
 /* Variables CSS para espaciado consistente */
 :root {
   --app-safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  //--app-bottom-margin: 4px; /* Margen base sutil para dispositivos sin notch */
-  //--app-total-bottom-spacing: calc(var(--app-bottom-margin) + var(--app-safe-area-bottom));
+  --app-tab-bar-height: 48px;
+  --app-content-padding: 10px;
+  --app-bottom-spacing: 2px; /* Tab bar + margin adicional */
+  --app-total-bottom-spacing: calc(var(--app-safe-area-bottom) + var(--app-bottom-spacing));
 }
 
 /* Tabs Container - Ajuste para evitar expansión */
@@ -327,8 +329,15 @@ ion-footer {
 }
 
 /* Content - Padding inferior para evitar solapamiento con tabs/footer */
-ion-content {
-  --padding-bottom: var(--app-total-bottom-spacing);
+// ion-content {
+//   --padding-bottom: var(--app-total-bottom-spacing);
+// }
+
+/* Page Content Wrappers - Clase utility para contenedores de página */
+.page-content {
+  padding: var(--app-content-padding);
+  padding-bottom: var(--app-total-bottom-spacing);
+  min-height: 100%;
 }
 
 /* Toolbar en footer - Ajuste adicional */
@@ -337,12 +346,12 @@ ion-footer ion-toolbar {
   --padding-bottom: var(--app-total-bottom-spacing);
 }
 
-/* FAB (Floating Action Button) - Ajuste de posición */
-ion-fab {
-  &[vertical="bottom"] {
-    margin-bottom: calc(var(--app-total-bottom-spacing) + 16px);
-  }
-}
+// /* FAB (Floating Action Button) - Ajuste de posición */
+// ion-fab {
+//   &[vertical="bottom"] {
+//     margin-bottom: calc(var(--app-total-bottom-spacing) + 16px);
+//   }
+// }
 
 /* Modal bottom sheets - Espaciado inferior y border radius */
 ion-modal.bottom-sheet {

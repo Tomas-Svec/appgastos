@@ -31,8 +31,8 @@ ion-content {
 }
 
 .profile-content {
-  padding: 16px;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+  padding: var(--app-content-padding);
+  //padding-bottom: var(--app-total-bottom-spacing);
   min-height: 100%;
   display: flex;
   flex-direction: column;

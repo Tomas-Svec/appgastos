@@ -32,9 +32,9 @@ ion-content {
 }
 
 .statistics-content {
-  padding: 16px;
+  padding: var(--app-content-padding);
   min-height: 100%;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+  padding-bottom: var(--app-total-bottom-spacing);
 }
 
 // Period Selector

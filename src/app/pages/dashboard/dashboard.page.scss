@@ -71,8 +71,8 @@ ion-content {
 }
 
 .dashboard-content {
-  padding: 16px;
-  padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 80px);
+  padding: var(--app-content-padding);
+  padding-bottom: var(--app-total-bottom-spacing);
 }
 
 // Summary Cards
