@@ -41,16 +41,18 @@
         <p class="stat-period">En el último {{ selectedPeriod() === 'week' ? 'semana' : selectedPeriod() === 'month' ? 'mes' : 'año' }}</p>
       </div>
 
-      <div class="ios-card stat-card" *ngIf="topCategory()">
-        <p class="stat-label">Categoría de Mayor Gasto</p>
-        <div class="category-display">
-          <div class="category-icon-wrapper" [ngClass]="topCategory()!.iconClass">
-            <ion-icon [name]="topCategory()!.icon"></ion-icon>
+      @if (topCategory()) {
+        <div class="ios-card stat-card">
+          <p class="stat-label">Categoría de Mayor Gasto</p>
+          <div class="category-display">
+            <div class="category-icon-wrapper" [ngClass]="topCategory()!.iconClass">
+              <ion-icon [name]="topCategory()!.icon"></ion-icon>
+            </div>
+            <p class="category-name">{{ topCategory()!.name }}</p>
           </div>
-          <p class="category-name">{{ topCategory()!.name }}</p>
+          <p class="category-amount">{{ formatCurrency(topCategory()!.amount) }}</p>
         </div>
-        <p class="category-amount">{{ formatCurrency(topCategory()!.amount) }}</p>
-      </div>
+      }
     </div>
 
     <!-- Chart Card -->
@@ -67,24 +69,28 @@
               <stop offset="100%" stop-color="#007AFF" stop-opacity="0" />
             </linearGradient>
           </defs>
-          <path
-            *ngIf="getChartAreaPath()"
-            [attr.d]="getChartAreaPath()"
-            fill="url(#chartGradient)"
-          />
+          @if (getChartAreaPath()) {
+            <path
+              [attr.d]="getChartAreaPath()"
+              fill="url(#chartGradient)"
+            />
+          }
           <!-- Line -->
-          <path
-            *ngIf="getChartPath()"
-            [attr.d]="getChartPath()"
-            stroke="#007AFF"
-            stroke-width="3"
-            stroke-linecap="round"
-            fill="none"
-          />
+          @if (getChartPath()) {
+            <path
+              [attr.d]="getChartPath()"
+              stroke="#007AFF"
+              stroke-width="3"
+              stroke-linecap="round"
+              fill="none"
+            />
+          }
         </svg>
 
         <div class="chart-labels">
-          <span *ngFor="let label of getChartLabels()" class="chart-label">{{ label }}</span>
+          @for (label of getChartLabels(); track label) {
+            <span class="chart-label">{{ label }}</span>
+          }
         </div>
       </div>
     </div>
@@ -93,37 +99,45 @@
     <h2 class="section-title-standalone">Gastos por Categoría</h2>
 
     <!-- Empty State -->
-    <div *ngIf="categoryStats().length === 0 && !isLoading()" class="empty-state">
-      <ion-icon name="stats-chart-outline"></ion-icon>
-      <p>No hay datos para mostrar</p>
-      <p class="empty-subtitle">Agrega gastos para ver tus estadísticas</p>
-    </div>
+    @if (categoryStats().length === 0 && !isLoading()) {
+      <div class="empty-state">
+        <ion-icon name="stats-chart-outline"></ion-icon>
+        <p>No hay datos para mostrar</p>
+        <p class="empty-subtitle">Agrega gastos para ver tus estadísticas</p>
+      </div>
+    }
 
     <!-- Category List -->
-    <div *ngIf="categoryStats().length > 0" class="ios-card categories-card">
-      <div class="category-item" *ngFor="let category of categoryStats()">
-        <div class="category-icon-wrapper" [ngClass]="category.iconClass">
-          <ion-icon [name]="category.icon"></ion-icon>
-        </div>
-        <div class="category-details">
-          <div class="category-header">
-            <span class="category-name">{{ category.name }}</span>
-            <span class="category-amount">{{ formatCurrency(category.amount) }}</span>
-          </div>
-          <div class="progress-bar">
-            <div
-              class="progress-fill"
-              [ngClass]="category.progressClass"
-              [style.width.%]="category.percentage">
+    @if (categoryStats().length > 0) {
+      <div class="ios-card categories-card">
+        @for (category of categoryStats(); track category.name) {
+          <div class="category-item">
+            <div class="category-icon-wrapper" [ngClass]="category.iconClass">
+              <ion-icon [name]="category.icon"></ion-icon>
+            </div>
+            <div class="category-details">
+              <div class="category-header">
+                <span class="category-name">{{ category.name }}</span>
+                <span class="category-amount">{{ formatCurrency(category.amount) }}</span>
+              </div>
+              <div class="progress-bar">
+                <div
+                  class="progress-fill"
+                  [ngClass]="category.progressClass"
+                  [style.width.%]="category.percentage">
+                </div>
+              </div>
             </div>
           </div>
-        </div>
+        }
       </div>
-    </div>
+    }
 
     <!-- Loading Spinner -->
-    <div *ngIf="isLoading()" class="loading-state">
-      <ion-spinner name="circular" color="primary"></ion-spinner>
-    </div>
+    @if (isLoading()) {
+      <div class="loading-state">
+        <ion-spinner name="circular" color="primary"></ion-spinner>
+      </div>
+    }
   </div>
 </ion-content>

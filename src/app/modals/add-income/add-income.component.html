@@ -12,10 +12,12 @@
   <p class="modal-subtitle">Ingresa el dinero disponible para este mes</p>
 
   <!-- Error Message -->
-  <div *ngIf="errorMessage" class="error-message">
-    <ion-icon name="alert-circle-outline"></ion-icon>
-    <span>{{ errorMessage }}</span>
-  </div>
+  @if (errorMessage) {
+    <div class="error-message">
+      <ion-icon name="alert-circle-outline"></ion-icon>
+      <span>{{ errorMessage }}</span>
+    </div>
+  }
 
   <form class="income-form">
     <!-- Amount Input -->
@@ -40,9 +42,12 @@
         class="ios-button-large save-button"
         (click)="saveIncome()"
         [disabled]="isLoading || !monthlyIncome || monthlyIncome <= 0">
-        <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
-        <span *ngIf="!isLoading">Guardar Presupuesto</span>
-        <span *ngIf="isLoading">Guardando...</span>
+        @if (isLoading) {
+          <ion-spinner name="crescent"></ion-spinner>
+          <span>Guardando...</span>
+        } @else {
+          <span>Guardar Presupuesto</span>
+        }
       </ion-button>
 
       <ion-button
