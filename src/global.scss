@@ -136,26 +136,31 @@ ion-item {
   }
 }
 
-/* Modal styles */
+/* Modal styles - iOS Bottom Sheet */
 ion-modal.bottom-sheet {
-  --border-radius: 2rem 2rem 0 0;
+  --border-radius: 20px 20px 0 0;
   --box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.12);
 
   &::part(backdrop) {
     background: rgba(0, 0, 0, 0.4);
   }
+
+  &::part(content) {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+  }
+
+  // Asegurar que el contenido tenga el border-radius
+  ion-content {
+    --border-radius: 20px 20px 0 0;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
 }
 
 ion-modal {
   --border-radius: 1rem;
-}
-
-.modal-handle {
-  width: 36px;
-  height: 5px;
-  border-radius: 9999px;
-  background: #C7C7CC;
-  margin: 12px auto 20px;
 }
 
 /* Floating Action Button */
@@ -339,10 +344,13 @@ ion-fab {
   }
 }
 
-/* Modal bottom sheets - Espaciado inferior */
+/* Modal bottom sheets - Espaciado inferior y border radius */
 ion-modal.bottom-sheet {
   .modal-wrapper {
     padding-bottom: var(--app-safe-area-bottom);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
   }
 }
 

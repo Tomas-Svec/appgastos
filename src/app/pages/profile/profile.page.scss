@@ -12,12 +12,17 @@ ion-header {
   -webkit-backdrop-filter: blur(10px);
   --padding-top: 8px;
 
+  ion-title {
+    text-align: left;
+    padding-inline-start: 10px;
+  }
+
   .header-title {
     font-size: 30px;
     font-weight: 700;
     letter-spacing: -0.5px;
     color: #1C1C1E;
-    text-align: center;
+    text-align: left;
   }
 }
 

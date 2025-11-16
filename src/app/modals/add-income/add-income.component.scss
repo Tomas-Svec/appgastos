@@ -23,13 +23,24 @@ ion-header {
   }
 }
 
+// Modal handle (barra superior para arrastrar)
+.modal-handle {
+  width: 36px;
+  height: 5px;
+  border-radius: 9999px;
+  //background: #C7C7CC;
+  margin: 12px auto 16px;
+}
+
 ion-content {
   &.income-content {
     --background: #e7ecf1;
-    --padding-top: 16px;
+    --padding-top: 0;
     --padding-bottom: 16px;
     --padding-start: 16px;
     --padding-end: 16px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
   }
 }
 
@@ -190,6 +201,7 @@ ion-content {
 // Dark Mode Support
 :host-context(body.dark),
 :host-context(body.ion-palette-dark) {
+
   ion-content {
     &.income-content {
       --background: #202530;

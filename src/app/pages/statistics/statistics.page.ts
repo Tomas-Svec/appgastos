@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ExpenseService } from '../../services/expense.service';
 import { AuthService } from '../../services/auth.service';
+import { DatabaseService } from '../../services/database.service';
 import { Expense } from '../../models';
 
 interface CategoryStat {
@@ -85,15 +86,27 @@ export class StatisticsPage implements OnInit {
 
   constructor(
     private expenseService: ExpenseService,
-    private authService: AuthService
+    private authService: AuthService,
+    private databaseService: DatabaseService
   ) {}
 
   async ngOnInit() {
     const currentUser = this.authService.currentUserValue;
     if (currentUser && currentUser.id) {
       this.currentUserId = currentUser.id;
-      await this.loadExpenses();
     }
+  }
+
+  /**
+   * Lifecycle hook de Ionic que se ejecuta cada vez que la página está por entrar en vista.
+   * Esto garantiza que los datos se recarguen cada vez que el usuario navega a esta página.
+   */
+  async ionViewWillEnter() {
+    // Garantizar que la base de datos esté inicializada
+    await this.databaseService.ensureInitialized();
+
+    // Recargar datos cada vez que se entra a la página
+    await this.loadExpenses();
   }
 
   async loadExpenses() {
